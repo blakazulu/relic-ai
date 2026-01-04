@@ -641,10 +641,6 @@ The app should feel like:
   - Load from IndexedDB instead of regenerating
   - useGLTF.clear() for cache invalidation on retry
 
-- [ ] **3.5.3** Create model export functionality
-  - Download as GLB (TODO)
-  - Share options (future)
-
 ---
 
 # PHASE 4: Save The Past - Info Card Generation
@@ -1060,9 +1056,8 @@ The app should feel like:
 - [~] 3.2.1 - 3.2.3: Multi-image OpenScanCloud (3 tasks) - Skipped, using TRELLIS.2 instead
 - [x] 3.3.1 - 3.3.3: Frontend flow (3 tasks) ✅
 - [x] 3.4.1 - 3.4.4: 3D viewer (4 tasks) ✅
-- [x] 3.5.1 - 3.5.2: Model storage (2 of 3 tasks) ✅
-- [ ] 3.5.3: Model export (1 task) - TODO
-**Total: 15/18 tasks completed**
+- [x] 3.5.1 - 3.5.2: Model storage (2 tasks) ✅
+**Total: 14 tasks completed**
 
 ## Phase 4: Info Cards (3-4 days)
 - [ ] 4.1.1 - 4.1.4: Netlify function (4 tasks)
