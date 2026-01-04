@@ -1,6 +1,8 @@
 export { useCamera } from './useCamera';
 export { useArtifactData } from './useArtifactData';
 export { useReconstruct3D } from './useReconstruct3D';
+export { useGenerateInfoCard } from './useGenerateInfoCard';
+export { useGeoLocation, formatCoordinates, formatAccuracy } from './useGeoLocation';
 export type { ArtifactData, UseArtifactDataReturn } from './useArtifactData';
 export type {
   ReconstructMethod,
@@ -9,6 +11,18 @@ export type {
   UseReconstruct3DOptions,
   UseReconstruct3DReturn,
 } from './useReconstruct3D';
+export type {
+  GenerateInfoCardState,
+  GenerateInfoCardError,
+  UseGenerateInfoCardOptions,
+  UseGenerateInfoCardReturn,
+} from './useGenerateInfoCard';
+export type {
+  GeoCoordinates,
+  GeoLocationState,
+  GeoLocationOptions,
+  UseGeoLocationReturn,
+} from './useGeoLocation';
 export type {
   CameraFacing,
   CameraStatus,

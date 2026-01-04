@@ -1,13 +1,20 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Box, Image, FileText, Palette, Download } from 'lucide-react';
+import { ArrowLeft, Box, Image, FileText, Palette, Download, Share2 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { useArtifactData, useReconstruct3D } from '@/hooks';
 import { ReconstructionCard } from '@/components/reconstruction';
 import { ModelViewer } from '@/components/viewer';
 import { LoadingSpinner } from '@/components/ui';
+import {
+  InfoCardDisplay,
+  InfoCardEditor,
+  InfoCardExport,
+  InfoCardGeneration,
+} from '@/components/info-card';
 import type { ReconstructionMethod } from '@/components/reconstruction';
 import type { ReconstructionStatus } from '@/components/reconstruction/ReconstructionProgress';
+import type { InfoCard } from '@/types';
 
 type Tab = '3d' | 'photos' | 'info' | 'colors';
 
@@ -113,7 +120,15 @@ export function ArtifactDetailPage() {
           />
         )}
         {activeTab === 'photos' && <PhotosTab images={images} />}
-        {activeTab === 'info' && <InfoTab infoCard={data.infoCard} />}
+        {activeTab === 'info' && (
+          <InfoTab
+            artifactId={artifact.id}
+            artifact={artifact}
+            images={images}
+            infoCard={data.infoCard}
+            onRefetch={refetch}
+          />
+        )}
         {activeTab === 'colors' && <ColorsTab colorVariants={data.colorVariants} />}
       </div>
     </div>
@@ -382,71 +397,99 @@ function PhotosTab({ images }: PhotosTabProps) {
 }
 
 interface InfoTabProps {
+  artifactId: string;
+  artifact: ReturnType<typeof useArtifactData>['data']['artifact'];
+  images: ReturnType<typeof useArtifactData>['data']['images'];
   infoCard: ReturnType<typeof useArtifactData>['data']['infoCard'];
+  onRefetch: () => void;
 }
 
-function InfoTab({ infoCard }: InfoTabProps) {
-  if (!infoCard) {
+function InfoTab({ artifactId, artifact, images, infoCard, onRefetch }: InfoTabProps) {
+  const [mode, setMode] = useState<'view' | 'edit' | 'generate'>('view');
+  const [showExport, setShowExport] = useState(false);
+  const [currentInfoCard, setCurrentInfoCard] = useState<InfoCard | null>(infoCard);
+
+  // Update current info card when prop changes
+  useMemo(() => {
+    if (infoCard) {
+      setCurrentInfoCard(infoCard);
+    }
+  }, [infoCard]);
+
+  // Handle generation complete
+  const handleGenerationComplete = useCallback((newInfoCard: InfoCard) => {
+    setCurrentInfoCard(newInfoCard);
+    setMode('view');
+    onRefetch();
+  }, [onRefetch]);
+
+  // Handle edit save
+  const handleEditSave = useCallback((updatedCard: InfoCard) => {
+    setCurrentInfoCard(updatedCard);
+    setMode('view');
+    onRefetch();
+  }, [onRefetch]);
+
+  // No info card yet - show generation UI
+  if (!currentInfoCard || mode === 'generate') {
     return (
-      <div className="text-center py-8">
-        <FileText className="h-12 w-12 text-stone-gray/50 mx-auto mb-3" />
-        <p className="text-stone-gray">Info card not generated yet</p>
-        <button className="mt-4 rounded-lg bg-terracotta px-6 py-2.5 font-medium text-bone-white transition-colors hover:bg-clay">
-          Generate Info Card
-        </button>
-      </div>
+      <InfoCardGeneration
+        artifactId={artifactId}
+        images={images}
+        initialMetadata={artifact?.metadata}
+        onComplete={handleGenerationComplete}
+        onCancel={currentInfoCard ? () => setMode('view') : undefined}
+      />
     );
   }
 
+  // Edit mode
+  if (mode === 'edit') {
+    return (
+      <InfoCardEditor
+        infoCard={currentInfoCard}
+        onSave={handleEditSave}
+        onCancel={() => setMode('view')}
+      />
+    );
+  }
+
+  // View mode
   return (
     <div className="space-y-4">
-      {/* Material */}
-      {infoCard.material && (
-        <div className="rounded-xl bg-aged-paper p-4">
-          <p className="text-xs text-stone-gray uppercase mb-1">Material</p>
-          <p className="text-charcoal font-medium">{infoCard.material}</p>
-        </div>
-      )}
-
-      {/* Estimated Age */}
-      {infoCard.estimatedAge && (
-        <div className="rounded-xl border border-desert-sand p-4">
-          <p className="text-xs text-stone-gray uppercase mb-1">Estimated Age</p>
-          <p className="text-charcoal font-medium">{infoCard.estimatedAge.range}</p>
-          <p className="text-xs text-stone-gray mt-1">
-            Confidence: {infoCard.estimatedAge.confidence}
-          </p>
-        </div>
-      )}
-
-      {/* Possible Use */}
-      {infoCard.possibleUse && (
-        <div className="rounded-xl border border-desert-sand p-4">
-          <p className="text-xs text-stone-gray uppercase mb-1">Possible Use</p>
-          <p className="text-charcoal font-medium">{infoCard.possibleUse}</p>
-        </div>
-      )}
-
-      {/* Cultural Context */}
-      {infoCard.culturalContext && (
-        <div className="rounded-xl border border-desert-sand p-4">
-          <p className="text-xs text-stone-gray uppercase mb-1">Cultural Context</p>
-          <p className="text-charcoal font-medium">{infoCard.culturalContext}</p>
-        </div>
-      )}
-
-      {/* Preservation Notes */}
-      {infoCard.preservationNotes && (
-        <div className="rounded-xl border border-desert-sand p-4">
-          <p className="text-xs text-stone-gray uppercase mb-1">Preservation Notes</p>
-          <p className="text-charcoal font-medium">{infoCard.preservationNotes}</p>
-        </div>
-      )}
-
-      {/* Disclaimer */}
-      <div className="rounded-xl bg-desert-teal/10 border border-desert-teal/30 p-4">
-        <p className="text-xs text-stone-gray">{infoCard.disclaimer}</p>
+      {/* Action buttons */}
+      <div className="flex gap-2 justify-end">
+        <button
+          onClick={() => setShowExport(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-aged-paper border border-desert-sand text-sm text-charcoal hover:bg-desert-sand/50 transition-colors"
+        >
+          <Share2 className="h-3.5 w-3.5" />
+          Export
+        </button>
+        <button
+          onClick={() => setMode('generate')}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-aged-paper border border-desert-sand text-sm text-charcoal hover:bg-desert-sand/50 transition-colors"
+        >
+          Regenerate
+        </button>
       </div>
+
+      {/* Info card display */}
+      <InfoCardDisplay
+        infoCard={currentInfoCard}
+        onEdit={() => setMode('edit')}
+        showEditButton
+      />
+
+      {/* Export modal */}
+      {showExport && artifact && (
+        <InfoCardExport
+          infoCard={currentInfoCard}
+          artifact={artifact}
+          images={images}
+          onClose={() => setShowExport(false)}
+        />
+      )}
     </div>
   );
 }

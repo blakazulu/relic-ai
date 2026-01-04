@@ -3,8 +3,11 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 /**
  * Netlify Function: Generate Info Card
  *
- * Calls Groq API with Llama 3.3 70B to generate
+ * Calls Groq API with Llama 3.2 90B Vision to generate
  * an archaeological artifact information card.
+ *
+ * Note: Uses llama-3.2-90b-vision-preview for vision capabilities.
+ * Llama 3.3 70B is text-only and doesn't support images.
  */
 
 interface InfoCardRequest {
@@ -34,6 +37,18 @@ interface InfoCardResponse {
     disclaimer: string;
   };
   error?: string;
+}
+
+// Retry configuration
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY = 1000; // 1 second
+
+async function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isRetryableError(status: number): boolean {
+  return status === 429 || status === 502 || status === 503 || status === 504;
 }
 
 const SYSTEM_PROMPT = `You are an expert archaeological artifact analyst. Given an image of an artifact and optional context, generate a detailed information card.
@@ -118,40 +133,76 @@ const handler: Handler = async (
       }
     }
 
-    // Call Groq API
-    const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: userMessage },
+    // Call Groq API with retry logic
+    let groqResponse: Response | null = null;
+    let lastError = '';
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'llama-3.2-90b-vision-preview',
+            messages: [
+              { role: 'system', content: SYSTEM_PROMPT },
               {
-                type: 'image_url',
-                image_url: { url: `data:image/jpeg;base64,${imageBase64}` },
+                role: 'user',
+                content: [
+                  { type: 'text', text: userMessage },
+                  {
+                    type: 'image_url',
+                    image_url: { url: `data:image/jpeg;base64,${imageBase64}` },
+                  },
+                ],
               },
             ],
-          },
-        ],
-        temperature: 0.3,
-        max_tokens: 1024,
-        response_format: { type: 'json_object' },
-      }),
-    });
+            temperature: 0.3,
+            max_tokens: 1024,
+            response_format: { type: 'json_object' },
+          }),
+        });
 
-    if (!groqResponse.ok) {
-      const error = await groqResponse.text();
-      console.error('Groq API error:', error);
+        if (groqResponse.ok) {
+          break; // Success, exit retry loop
+        }
+
+        if (!isRetryableError(groqResponse.status)) {
+          // Non-retryable error, exit loop
+          lastError = await groqResponse.text();
+          console.error('Groq API non-retryable error:', lastError);
+          break;
+        }
+
+        // Retryable error, wait and try again
+        lastError = await groqResponse.text();
+        console.log(`Groq API error (attempt ${attempt + 1}/${MAX_RETRIES}):`, groqResponse.status);
+
+        if (attempt < MAX_RETRIES - 1) {
+          const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, attempt);
+          await delay(retryDelay);
+        }
+      } catch (fetchError) {
+        lastError = fetchError instanceof Error ? fetchError.message : 'Network error';
+        console.error(`Fetch error (attempt ${attempt + 1}/${MAX_RETRIES}):`, lastError);
+
+        if (attempt < MAX_RETRIES - 1) {
+          const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, attempt);
+          await delay(retryDelay);
+        }
+      }
+    }
+
+    if (!groqResponse || !groqResponse.ok) {
       return {
-        statusCode: groqResponse.status,
-        body: JSON.stringify({ success: false, error: 'Groq API error' }),
+        statusCode: groqResponse?.status || 500,
+        body: JSON.stringify({
+          success: false,
+          error: lastError || 'Groq API error after retries'
+        }),
         headers,
       };
     }
@@ -168,7 +219,20 @@ const handler: Handler = async (
     }
 
     // Parse the JSON response
-    const infoCardData = JSON.parse(content);
+    let infoCardData;
+    try {
+      infoCardData = JSON.parse(content);
+    } catch (parseError) {
+      console.error('Failed to parse AI response as JSON:', content);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          success: false,
+          error: 'AI returned invalid JSON response',
+        }),
+        headers,
+      };
+    }
 
     const response: InfoCardResponse = {
       success: true,
