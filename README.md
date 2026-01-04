@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Archaeology Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first web application for archaeological artifact documentation with AI-powered features.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Save The Past
+- **3D Reconstruction**: Generate 3D models from artifact photos using TRELLIS.2 or TripoSR
+- **AI Info Cards**: Automatically generate artifact information cards with material identification, estimated age, cultural context, and preservation recommendations
 
-## React Compiler
+### PastPalette
+- **AI Colorization**: Generate multiple historically-accurate color reconstructions of artifacts
+- **Cultural Presets**: Roman, Greek, Egyptian, Mesopotamian, and more color schemes
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18 + TypeScript |
+| Styling | Tailwind CSS |
+| State Management | Zustand |
+| Local Storage | IndexedDB (Dexie.js) |
+| 3D Viewer | Three.js / @react-three/fiber |
+| API Proxy | Netlify Functions |
+| 3D APIs | TRELLIS.2 / TripoSR (HuggingFace) |
+| LLM API | Groq (Llama 3.3 70B) |
+| Colorization | DeOldify / SD+ControlNet |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Environment Variables
+
+Create a `.env` file with the following (for Netlify Functions):
+
+```
+GROQ_API_KEY=your_groq_api_key
+HF_API_TOKEN=your_huggingface_token (optional)
+```
+
+## Design Philosophy
+
+- **Mobile-first**: Optimized for field use on mobile devices
+- **Offline-first**: Core features work without internet, sync when available
+- **No accounts required**: All data stored locally in IndexedDB
+- **AI transparency**: All AI-generated content clearly marked as speculative
+
+## License
+
+MIT
