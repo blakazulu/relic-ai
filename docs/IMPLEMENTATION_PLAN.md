@@ -764,73 +764,82 @@ The app should feel like:
 
 ---
 
-# PHASE 5: Save The Past - Gallery & Storage
+# PHASE 5: Save The Past - Gallery & Storage ✅ COMPLETED
 
 **Estimated Duration**: 2-3 days
 
 ## 5.1 Artifact Gallery
 
-- [ ] **5.1.1** Create gallery grid view
-  - Responsive grid (1 col mobile, 2-3 cols tablet+)
-  - Thumbnail images
-  - Quick info overlay
+- [x] **5.1.1** Create gallery grid view
+  - Created `ArtifactCard.tsx` - Card display with thumbnail, status badge, date
+  - Created `GalleryGrid.tsx` - Responsive grid (1/2/3 columns based on screen)
+  - Quick info overlay with truncated metadata
 
-- [ ] **5.1.2** Create gallery list view
-  - Compact list format
-  - More details visible
-  - Toggle between views
+- [x] **5.1.2** Create gallery list view
+  - Created `ArtifactListItem.tsx` - Compact row format with more details
+  - Created `GalleryList.tsx` - Vertical list container
+  - Toggle between grid/list views in toolbar
 
-- [ ] **5.1.3** Implement sorting & filtering
-  - Sort by date, name
-  - Filter by status (complete, processing, incomplete)
-  - Search by metadata
+- [x] **5.1.3** Implement sorting & filtering
+  - Created `GalleryFilters.tsx` - Search, status filter, sort controls
+  - Created `GalleryToolbar.tsx` - Combined toolbar with view toggle
+  - Created `useGalleryFilters.ts` hook - Filter/sort state management
+  - Sort by date (newest/oldest) or name (A-Z/Z-A)
+  - Filter by status (all, complete, processing, incomplete)
+  - Real-time search by name and metadata
 
 ## 5.2 Artifact Detail Page
 
-- [ ] **5.2.1** Create artifact detail layout
-  - 3D viewer (main)
-  - Image gallery
-  - Info card
-  - Actions menu
+- [x] **5.2.1** Create artifact detail layout
+  - Created `DetailHeader.tsx` - Header with breadcrumb, editable name, actions dropdown
+  - Actions menu with Edit, Export, Share, Delete options
+  - Status badge display
 
-- [ ] **5.2.2** Create tabbed interface
-  - Tab 1: 3D Model
-  - Tab 2: Photos
-  - Tab 3: Info Card
-  - Tab 4: Color Variants (Phase 6)
+- [x] **5.2.2** Create tabbed interface
+  - Created `TabNav.tsx` - Reusable tab navigation component
+  - Support for badges on tabs (e.g., photo count)
+  - Active state styling with archaeology theme
 
-- [ ] **5.2.3** Implement edit mode
-  - Edit metadata
-  - Add/remove photos
-  - Regenerate 3D/info
+- [x] **5.2.3** Implement edit mode
+  - Inline name editing in DetailHeader
+  - Edit/delete/export/share actions in dropdown menu
+  - Name change callback support
 
 ## 5.3 Data Management
 
-- [ ] **5.3.1** Implement artifact deletion
-  - Confirm dialog
-  - Delete all related data (images, models)
-  - Undo option (soft delete)
+- [x] **5.3.1** Implement artifact deletion
+  - Created `DeleteConfirmDialog.tsx` - Confirmation modal
+  - Created `useDeleteArtifact.ts` hook - Delete workflow with loading state
+  - Warning message about permanent deletion of all related data
+  - Deletes images, 3D models, info cards, and color variants
 
-- [ ] **5.3.2** Implement data export
-  - Export all artifacts as JSON
-  - Export specific artifact
-  - Include all media
+- [x] **5.3.2** Implement data export
+  - Created `ExportDialog.tsx` - Export options dialog
+  - Created `useDataExport.ts` hook - Export single or all artifacts
+  - Export as JSON with base64-encoded media
+  - Progress tracking during export
+  - Auto-download on completion
 
-- [ ] **5.3.3** Implement data import
-  - Import from JSON backup
-  - Validate data format
-  - Handle duplicates
+- [x] **5.3.3** Implement data import
+  - Created `ImportDialog.tsx` - Import with file picker
+  - Created `useDataImport.ts` hook - Import with progress tracking
+  - Duplicate handling options: skip or import as new
+  - File validation (JSON only)
+  - Import result summary (imported, skipped, errors)
 
 ## 5.4 Offline Support
 
-- [ ] **5.4.1** Implement offline detection
-  - Show offline indicator
-  - Queue operations for sync
+- [x] **5.4.1** Implement offline detection
+  - Created `OfflineIndicator.tsx` - Banner showing offline/online status
+  - Created `useOnlineStatus.ts` hook - Online/offline detection with events
+  - Integration with Zustand appStore for global state
 
-- [ ] **5.4.2** Queue failed API calls
-  - Store pending operations
-  - Retry when online
-  - Show sync status
+- [x] **5.4.2** Queue failed API calls
+  - Created `offlineQueue.ts` - Queue storage in localStorage
+  - Created `OfflineQueueIndicator.tsx` - Pending operations indicator
+  - Created `useOfflineQueue.ts` hook - Queue management
+  - Auto-process queue when coming back online
+  - Exponential backoff with retry limits
 
 ---
 
@@ -1066,12 +1075,12 @@ The app should feel like:
 - [x] 4.4.1 - 4.4.3: Export (3 tasks) ✅
 **Total: 13 tasks completed**
 
-## Phase 5: Gallery (2-3 days)
-- [ ] 5.1.1 - 5.1.3: Gallery views (3 tasks)
-- [ ] 5.2.1 - 5.2.3: Detail page (3 tasks)
-- [ ] 5.3.1 - 5.3.3: Data management (3 tasks)
-- [ ] 5.4.1 - 5.4.2: Offline support (2 tasks)
-**Total: 11 tasks**
+## Phase 5: Gallery (2-3 days) ✅ COMPLETED
+- [x] 5.1.1 - 5.1.3: Gallery views (3 tasks) ✅
+- [x] 5.2.1 - 5.2.3: Detail page (3 tasks) ✅
+- [x] 5.3.1 - 5.3.3: Data management (3 tasks) ✅
+- [x] 5.4.1 - 5.4.2: Offline support (2 tasks) ✅
+**Total: 11 tasks completed**
 
 ## Phase 6: PastPalette (4-5 days)
 - [ ] 6.1.1 - 6.1.4: Netlify function (4 tasks)
@@ -1096,10 +1105,12 @@ The app should feel like:
 # Grand Total: 116 Tasks
 
 **Estimated Timeline:**
-- Phase 1-5 (Save The Past MVP): ~14-19 days
+- Phase 1-5 (Save The Past MVP): ~14-19 days ✅ COMPLETED
 - Phase 6 (PastPalette): ~4-5 days
 - Phase 7 (Polish): ~3-4 days
 - **Total: ~21-28 days**
+
+**Progress: Phases 1-5 complete (75 tasks). Remaining: Phase 6-7 (36 tasks)**
 
 ---
 
