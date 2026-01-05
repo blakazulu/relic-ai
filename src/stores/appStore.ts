@@ -103,11 +103,15 @@ interface SettingsState {
   // Info card preferences
   autoGenerateInfoCard: boolean;
 
+  // Mobile UX preferences
+  hapticsEnabled: boolean;
+
   // Actions
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
   setDefault3DMethod: (method: 'single' | 'multi') => void;
   setAutoRemoveBackground: (auto: boolean) => void;
   setAutoGenerateInfoCard: (auto: boolean) => void;
+  setHapticsEnabled: (enabled: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -118,12 +122,14 @@ export const useSettingsStore = create<SettingsState>()(
       default3DMethod: 'single',
       autoRemoveBackground: true,
       autoGenerateInfoCard: true,
+      hapticsEnabled: true, // Enabled by default on supported devices
 
       // Actions
       setTheme: (theme) => set({ theme }),
       setDefault3DMethod: (method) => set({ default3DMethod: method }),
       setAutoRemoveBackground: (auto) => set({ autoRemoveBackground: auto }),
       setAutoGenerateInfoCard: (auto) => set({ autoGenerateInfoCard: auto }),
+      setHapticsEnabled: (enabled) => set({ hapticsEnabled: enabled }),
     }),
     {
       name: 'archaeology-settings',

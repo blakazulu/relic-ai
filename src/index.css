@@ -105,3 +105,56 @@
     background: var(--color-clay);
   }
 }
+
+/* Touch target utilities for mobile accessibility */
+/* Ensures minimum 44x44px touch targets per WCAG 2.1 guidelines */
+
+@utility touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@utility touch-target-sm {
+  min-width: 36px;
+  min-height: 36px;
+}
+
+@utility touch-target-lg {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Touch target with centered content */
+@utility touch-target-center {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spacing utilities for touch-friendly layouts */
+@utility touch-spacing {
+  gap: 12px;
+}
+
+@utility touch-spacing-lg {
+  gap: 16px;
+}
+
+/* Interactive touch area extension (extends clickable area without changing visual size) */
+@utility touch-area {
+  position: relative;
+}
+
+/* Touch area pseudo-element for extended click target */
+@layer components {
+  .touch-area::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Camera, SwitchCamera, X, AlertCircle, CameraOff } from 'lucide-react';
-import { useCamera } from '@/hooks/useCamera';
+import { useCamera, useHaptics } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { CaptureOverlay } from './CaptureOverlay';
 import { LoadingSpinner } from '@/components/ui';
@@ -12,6 +12,7 @@ interface CameraViewProps {
 }
 
 export function CameraView({ onCapture, onClose, className }: CameraViewProps) {
+  const { haptic } = useHaptics();
   const {
     videoRef,
     status,
@@ -42,9 +43,23 @@ export function CameraView({ onCapture, onClose, className }: CameraViewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Trigger error haptic when camera fails
+  useEffect(() => {
+    if (status === 'denied' || status === 'error' || status === 'not-supported') {
+      haptic('error');
+    }
+  }, [status, haptic]);
+
+  const handleSwitchCamera = () => {
+    haptic('light');
+    switchCamera();
+  };
+
   const handleCapture = async () => {
+    haptic('medium'); // Haptic feedback on capture
     const blob = await captureImage();
     if (blob) {
+      haptic('success'); // Success feedback
       onCapture(blob);
     }
   };
@@ -185,7 +200,7 @@ export function CameraView({ onCapture, onClose, className }: CameraViewProps) {
 
           {capabilities?.hasMultipleCameras && (
             <button
-              onClick={switchCamera}
+              onClick={handleSwitchCamera}
               disabled={!isActive}
               className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors disabled:opacity-50"
               aria-label="Switch camera"

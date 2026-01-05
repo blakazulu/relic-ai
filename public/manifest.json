@@ -1,0 +1,37 @@
+{
+  "name": "Save The Past",
+  "short_name": "SavePast",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#8B4513",
+  "background_color": "#FDF5E6",
+  "description": "Archaeological artifact documentation with 3D reconstruction and AI analysis",
+  "icons": [
+    {
+      "src": "/logo-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "categories": ["education", "utilities", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

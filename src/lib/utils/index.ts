@@ -1,4 +1,10 @@
 export { cn } from './cn';
+export {
+  triggerHaptic,
+  isHapticsSupported,
+  cancelHaptic,
+  type HapticPattern,
+} from './haptics';
 
 /**
  * Generate a unique ID for artifacts

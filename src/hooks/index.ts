@@ -10,6 +10,7 @@ export { useDataExport } from './useDataExport';
 export { useDataImport } from './useDataImport';
 export { useOnlineStatus } from './useOnlineStatus';
 export { useOfflineQueue } from './useOfflineQueue';
+export { useHaptics } from './useHaptics';
 export type { ArtifactData, UseArtifactDataReturn } from './useArtifactData';
 export type {
   ReconstructMethod,

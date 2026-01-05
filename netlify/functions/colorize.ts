@@ -37,8 +37,9 @@ interface GradioError extends Error {
 }
 
 // Cultural color scheme prompts - historically accurate pigment descriptions
+// NOTE: NO PURPLE per design guidelines - using alternative historical Roman colors
 const COLOR_SCHEME_PROMPTS: Record<string, string> = {
-  roman: 'Rich Roman colors with deep crimson reds, imperial Tyrian purple, gold leaf accents, marble white, terracotta',
+  roman: 'Rich Roman colors with deep crimson reds, burnt sienna, gold leaf accents, marble white, terracotta, ochre',
   greek: 'Classical Greek palette with terracotta orange, black-figure pottery black, red ochre, Mediterranean cerulean blue, white marble',
   egyptian: 'Ancient Egyptian colors with lapis lazuli blue, gold, turquoise, rich emerald green, burnt sienna, white alabaster',
   mesopotamian: 'Mesopotamian palette with deep ultramarine blue, burnished gold, brick red, earth tones, ivory',

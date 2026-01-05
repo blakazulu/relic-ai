@@ -6,12 +6,15 @@ import {
   Moon,
   Sun,
   Info,
-  ExternalLink
+  ExternalLink,
+  Vibrate
 } from 'lucide-react';
 import { useSettingsStore } from '../stores/appStore';
+import { isHapticsSupported } from '@/lib/utils';
 
 export function SettingsPage() {
-  const { theme, setTheme } = useSettingsStore();
+  const { theme, setTheme, hapticsEnabled, setHapticsEnabled } = useSettingsStore();
+  const hapticsSupported = isHapticsSupported();
 
   return (
     <div className="px-4 py-6">
@@ -23,7 +26,7 @@ export function SettingsPage() {
         <div className="rounded-xl bg-aged-paper border border-desert-sand overflow-hidden">
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-parchment transition-colors"
+            className="w-full flex items-center justify-between p-4 text-left hover:bg-parchment transition-colors touch-target"
           >
             <div className="flex items-center gap-3">
               {theme === 'dark' ? (
@@ -48,6 +51,38 @@ export function SettingsPage() {
           </button>
         </div>
       </section>
+
+      {/* Mobile Experience */}
+      {hapticsSupported && (
+        <section className="mb-8">
+          <h3 className="font-heading text-lg font-semibold text-charcoal mb-4">
+            Mobile Experience
+          </h3>
+          <div className="rounded-xl bg-aged-paper border border-desert-sand overflow-hidden">
+            <button
+              onClick={() => setHapticsEnabled(!hapticsEnabled)}
+              className="w-full flex items-center justify-between p-4 text-left hover:bg-parchment transition-colors touch-target"
+            >
+              <div className="flex items-center gap-3">
+                <Vibrate className="h-5 w-5 text-sienna" />
+                <div>
+                  <p className="font-medium text-charcoal">Haptic Feedback</p>
+                  <p className="text-sm text-stone-gray">
+                    {hapticsEnabled ? 'Vibration enabled' : 'Vibration disabled'}
+                  </p>
+                </div>
+              </div>
+              <div className="relative h-6 w-11 rounded-full bg-desert-sand">
+                <div
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-terracotta transition-all ${
+                    hapticsEnabled ? 'left-5' : 'left-0.5'
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* Data Management */}
       <section className="mb-8">
@@ -155,7 +190,7 @@ function SettingsButton({
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 p-4 text-left hover:bg-parchment transition-colors"
+      className="w-full flex items-center gap-3 p-4 text-left hover:bg-parchment transition-colors touch-target"
     >
       <Icon
         className={`h-5 w-5 ${destructive ? 'text-rust-red' : 'text-sienna'}`}
