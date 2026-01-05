@@ -1,4 +1,5 @@
 import { Search, ArrowUpDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { ArtifactStatus } from '@/types';
 import type { GalleryFilters as GalleryFiltersType } from '@/hooks/useGalleryFilters';
@@ -12,22 +13,6 @@ interface GalleryFiltersProps {
   resultCount: number;
 }
 
-const STATUS_OPTIONS: { value: ArtifactStatus | 'all'; label: string }[] = [
-  { value: 'all', label: 'All Status' },
-  { value: 'draft', label: 'Draft' },
-  { value: 'images-captured', label: 'Images Captured' },
-  { value: 'processing-3d', label: 'Processing 3D' },
-  { value: 'processing-info', label: 'Processing Info' },
-  { value: 'complete', label: 'Complete' },
-  { value: 'error', label: 'Error' },
-];
-
-const SORT_OPTIONS = [
-  { value: 'date', label: 'Date' },
-  { value: 'name', label: 'Name' },
-  { value: 'status', label: 'Status' },
-] as const;
-
 export function GalleryFilters({
   filters,
   setSearch,
@@ -36,17 +21,35 @@ export function GalleryFilters({
   toggleSortOrder,
   resultCount,
 }: GalleryFiltersProps) {
+  const { t } = useTranslation();
+
+  const STATUS_OPTIONS: { value: ArtifactStatus | 'all'; labelKey: string }[] = [
+    { value: 'all', labelKey: 'pages.gallery.allStatus' },
+    { value: 'draft', labelKey: 'common.status.draft' },
+    { value: 'images-captured', labelKey: 'common.status.images' },
+    { value: 'processing-3d', labelKey: 'common.status.processing' },
+    { value: 'processing-info', labelKey: 'common.status.analyzing' },
+    { value: 'complete', labelKey: 'common.status.complete' },
+    { value: 'error', labelKey: 'common.status.error' },
+  ];
+
+  const SORT_OPTIONS = [
+    { value: 'date', labelKey: 'pages.gallery.sortDate' },
+    { value: 'name', labelKey: 'pages.gallery.sortName' },
+    { value: 'status', labelKey: 'pages.gallery.sortStatus' },
+  ] as const;
+
   return (
     <div className="space-y-3">
       {/* Search Input */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-gray" />
+        <Search className="absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-gray" />
         <input
           type="text"
-          placeholder="Search artifacts..."
+          placeholder={t('pages.gallery.searchPlaceholder')}
           value={filters.search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-desert-sand bg-aged-paper py-2.5 pl-10 pr-4 text-sm text-charcoal placeholder:text-stone-gray focus:border-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta/20 transition-colors"
+          className="w-full rounded-lg border border-desert-sand bg-aged-paper py-2.5 pl-10 pr-4 rtl:pl-4 rtl:pr-10 text-sm text-charcoal placeholder:text-stone-gray focus:border-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta/20 transition-colors"
         />
       </div>
 
@@ -61,11 +64,11 @@ export function GalleryFilters({
           >
             {STATUS_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {t(option.labelKey)}
               </option>
             ))}
           </select>
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <div className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none">
             <svg className="h-4 w-4 text-stone-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -81,11 +84,11 @@ export function GalleryFilters({
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
-                Sort: {option.label}
+                {t(option.labelKey)}
               </option>
             ))}
           </select>
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <div className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none">
             <svg className="h-4 w-4 text-stone-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -109,14 +112,14 @@ export function GalleryFilters({
             )}
           />
           <span className="text-charcoal">
-            {filters.sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
+            {filters.sortOrder === 'asc' ? t('pages.gallery.oldestFirst') : t('pages.gallery.newestFirst')}
           </span>
         </button>
       </div>
 
       {/* Result Count */}
       <div className="text-sm text-stone-gray">
-        {resultCount} {resultCount === 1 ? 'artifact' : 'artifacts'} found
+        {t('pages.gallery.artifactFound', { count: resultCount })}
       </div>
     </div>
   );

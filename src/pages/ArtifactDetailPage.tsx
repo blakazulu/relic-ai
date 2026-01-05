@@ -1,6 +1,7 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Box, Image, FileText, Palette, Download, Share2, Plus, ImageOff } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useArtifactData, useReconstruct3D, useColorize } from '@/hooks';
 import { ReconstructionCard } from '@/components/reconstruction';
@@ -28,6 +29,7 @@ type Tab = '3d' | 'photos' | 'info' | 'colors';
 export function ArtifactDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
 
   // Get initial tab from URL param (e.g., ?tab=colors for PastPalette flow)
   const initialTab = (searchParams.get('tab') as Tab) || '3d';
@@ -41,7 +43,7 @@ export function ArtifactDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-stone-gray">Loading artifact...</p>
+          <p className="mt-4 text-stone-gray">{t('pages.artifact.loading')}</p>
         </div>
       </div>
     );
@@ -53,17 +55,17 @@ export function ArtifactDetailPage() {
         <div className="text-center">
           <Box className="h-16 w-16 text-stone-gray/30 mx-auto mb-4" />
           <h2 className="font-heading text-xl font-semibold text-charcoal mb-2">
-            Artifact Not Found
+            {t('pages.artifact.notFound')}
           </h2>
           <p className="text-stone-gray mb-4">
-            {error?.message || 'This artifact could not be loaded.'}
+            {error?.message || t('pages.artifact.couldNotLoad')}
           </p>
           <Link
             to="/gallery"
             className="inline-flex items-center gap-2 rounded-lg bg-terracotta px-4 py-2 text-bone-white hover:bg-clay transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Gallery
+            <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
+            {t('pages.artifact.backToGallery')}
           </Link>
         </div>
       </div>
@@ -71,7 +73,7 @@ export function ArtifactDetailPage() {
   }
 
   const { artifact, images, model } = data;
-  const artifactName = artifact.metadata?.name || `Artifact #${artifact.id.slice(0, 8)}`;
+  const artifactName = artifact.metadata?.name || t('pages.gallery.unnamedArtifact');
 
   return (
     <div className="min-h-screen pb-20">
@@ -95,26 +97,26 @@ export function ArtifactDetailPage() {
             active={activeTab === '3d'}
             onClick={() => setActiveTab('3d')}
             icon={Box}
-            label="3D Model"
+            label={t('pages.artifact.tabs.model')}
           />
           <TabButton
             active={activeTab === 'photos'}
             onClick={() => setActiveTab('photos')}
             icon={Image}
-            label="Photos"
+            label={t('pages.artifact.tabs.photos')}
             count={images.length}
           />
           <TabButton
             active={activeTab === 'info'}
             onClick={() => setActiveTab('info')}
             icon={FileText}
-            label="Info"
+            label={t('pages.artifact.tabs.info')}
           />
           <TabButton
             active={activeTab === 'colors'}
             onClick={() => setActiveTab('colors')}
             icon={Palette}
-            label="Colors"
+            label={t('pages.artifact.tabs.colors')}
           />
         </div>
       </div>
@@ -200,6 +202,7 @@ function Model3DTab({
   artifactStatus,
   onReconstructionComplete,
 }: Model3DTabProps) {
+  const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState<ReconstructionMethod>('multi');
 
   // Convert artifact status to reconstruction status
@@ -273,30 +276,30 @@ function Model3DTab({
 
         {/* Model Info */}
         <div className="rounded-xl bg-aged-paper p-4 space-y-3">
-          <h3 className="font-heading font-semibold text-charcoal">Model Details</h3>
+          <h3 className="font-heading font-semibold text-charcoal">{t('components.modelViewer.modelDetails')}</h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-stone-gray">Format</p>
+              <p className="text-stone-gray">{t('components.modelViewer.format')}</p>
               <p className="text-charcoal font-medium uppercase">{model.format}</p>
             </div>
             <div>
-              <p className="text-stone-gray">Source</p>
+              <p className="text-stone-gray">{t('components.modelViewer.source')}</p>
               <p className="text-charcoal font-medium">
-                {model.source === '3d-single' ? 'Single Image' : 'Multi-Image'}
+                {model.source === '3d-single' ? t('components.modelViewer.singleImage') : t('components.modelViewer.multiImage')}
               </p>
             </div>
             <div>
-              <p className="text-stone-gray">Created</p>
+              <p className="text-stone-gray">{t('components.modelViewer.created')}</p>
               <p className="text-charcoal font-medium">
                 {new Date(model.createdAt).toLocaleDateString()}
               </p>
             </div>
             <div>
-              <p className="text-stone-gray">Size</p>
+              <p className="text-stone-gray">{t('components.modelViewer.size')}</p>
               <p className="text-charcoal font-medium">
                 {model.metadata?.fileSize
                   ? `${(model.metadata.fileSize / 1024 / 1024).toFixed(2)} MB`
-                  : 'Unknown'}
+                  : t('components.modelViewer.unknown')}
               </p>
             </div>
           </div>
@@ -312,20 +315,20 @@ function Model3DTab({
             className="w-full mt-2 flex items-center justify-center gap-2 rounded-lg bg-terracotta py-3 text-bone-white font-medium hover:bg-clay transition-colors"
           >
             <Download className="h-5 w-5" />
-            Download 3D Model
+            {t('components.modelViewer.download3DModel')}
           </button>
         </div>
 
         {/* Regenerate Option */}
         <div className="rounded-xl border border-desert-sand p-4">
           <p className="text-sm text-stone-gray mb-3">
-            Not satisfied with the result? You can regenerate the 3D model.
+            {t('components.modelViewer.notSatisfied')}
           </p>
           <button
             onClick={() => reset()}
             className="text-sm text-terracotta hover:text-clay font-medium"
           >
-            Generate New Model
+            {t('components.modelViewer.generateNew')}
           </button>
         </div>
       </div>
@@ -337,7 +340,7 @@ function Model3DTab({
     <ReconstructionCard
       status={uiStatus}
       progress={progress}
-      statusMessage={getStatusMessage(state, progress)}
+      statusMessage={getStatusMessage(state, progress, t)}
       errorMessage={error?.message}
       selectedMethod={selectedMethod}
       onMethodChange={setSelectedMethod}
@@ -353,24 +356,24 @@ function Model3DTab({
   );
 }
 
-function getStatusMessage(state: string, progress: number): string {
+function getStatusMessage(state: string, progress: number, t: (key: string) => string): string {
   switch (state) {
     case 'uploading':
-      if (progress < 15) return 'Converting images...';
-      if (progress < 30) return 'Encoding image data...';
-      return 'Uploading to server...';
+      if (progress < 15) return t('components.reconstruction.status.converting');
+      if (progress < 30) return t('components.reconstruction.status.encoding');
+      return t('components.reconstruction.status.uploading');
     case 'processing':
-      if (progress < 50) return 'Starting 3D reconstruction...';
-      if (progress < 70) return 'Analyzing image features...';
-      if (progress < 85) return 'Building 3D geometry...';
-      if (progress < 95) return 'Saving model...';
-      return 'Finalizing...';
+      if (progress < 50) return t('components.reconstruction.status.starting');
+      if (progress < 70) return t('components.reconstruction.status.analyzing');
+      if (progress < 85) return t('components.reconstruction.status.building');
+      if (progress < 95) return t('components.reconstruction.status.saving');
+      return t('components.reconstruction.status.finalizing');
     case 'complete':
-      return 'Reconstruction complete!';
+      return t('components.reconstruction.status.complete');
     case 'error':
-      return 'An error occurred';
+      return t('components.reconstruction.status.error');
     default:
-      return 'Ready to start';
+      return t('components.reconstruction.status.ready');
   }
 }
 
@@ -379,11 +382,13 @@ interface PhotosTabProps {
 }
 
 function PhotosTab({ images }: PhotosTabProps) {
+  const { t } = useTranslation();
+
   if (images.length === 0) {
     return (
       <div className="text-center py-8">
         <Image className="h-12 w-12 text-stone-gray/50 mx-auto mb-3" />
-        <p className="text-stone-gray">No photos captured</p>
+        <p className="text-stone-gray">{t('pages.artifact.noPhotos')}</p>
       </div>
     );
   }
@@ -391,7 +396,7 @@ function PhotosTab({ images }: PhotosTabProps) {
   return (
     <div className="space-y-4">
       <p className="text-sm text-stone-gray">
-        {images.length} photo{images.length !== 1 ? 's' : ''} captured
+        {t('pages.artifact.photosCaptured', { count: images.length })}
       </p>
       <div className="grid grid-cols-2 gap-3">
         {images.map((image) => (
@@ -423,6 +428,7 @@ interface InfoTabProps {
 }
 
 function InfoTab({ artifactId, artifact, images, infoCard, onRefetch }: InfoTabProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<'view' | 'edit' | 'generate'>('view');
   const [showExport, setShowExport] = useState(false);
   const [currentInfoCard, setCurrentInfoCard] = useState<InfoCard | null>(infoCard);
@@ -476,19 +482,19 @@ function InfoTab({ artifactId, artifact, images, infoCard, onRefetch }: InfoTabP
   return (
     <div className="space-y-4">
       {/* Action buttons */}
-      <div className="flex gap-2 justify-end">
+      <div className="flex gap-2 justify-end rtl:flex-row-reverse">
         <button
           onClick={() => setShowExport(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-aged-paper border border-desert-sand text-sm text-charcoal hover:bg-desert-sand/50 transition-colors"
         >
           <Share2 className="h-3.5 w-3.5" />
-          Export
+          {t('pages.artifact.export')}
         </button>
         <button
           onClick={() => setMode('generate')}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-aged-paper border border-desert-sand text-sm text-charcoal hover:bg-desert-sand/50 transition-colors"
         >
-          Regenerate
+          {t('pages.artifact.regenerate')}
         </button>
       </div>
 
@@ -522,6 +528,7 @@ interface ColorsTabProps {
 }
 
 function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabProps) {
+  const { t } = useTranslation();
   // State management
   const [mode, setMode] = useState<ColorsTabMode>(colorVariants.length > 0 ? 'gallery' : 'generate');
   const [selectedVariant, setSelectedVariant] = useState<ColorVariant | null>(null);
@@ -645,10 +652,10 @@ function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabPr
           <ImageOff className="h-8 w-8 text-stone-gray/50" />
         </div>
         <h3 className="font-heading text-lg font-semibold text-charcoal mb-2">
-          No Images Available
+          {t('pages.artifact.noImagesAvailable')}
         </h3>
         <p className="text-stone-gray text-sm max-w-xs mx-auto">
-          Capture photos of your artifact first to generate color variants.
+          {t('pages.artifact.captureFirst')}
         </p>
       </div>
     );
@@ -677,15 +684,15 @@ function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabPr
             onClick={() => setMode('gallery')}
             className="flex items-center gap-2 text-sm text-stone-gray hover:text-charcoal transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Gallery
+            <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
+            {t('pages.artifact.backToGallery')}
           </button>
         )}
 
         <ColorizationCard
           status={colorizationStatus}
           progress={progress}
-          statusMessage={getColorizeStatusMessage(colorizeState, progress)}
+          statusMessage={getColorizeStatusMessage(colorizeState, progress, t)}
           errorMessage={errorMessage || colorizeError?.message}
           selectedScheme={selectedScheme}
           onSchemeChange={setSelectedScheme}
@@ -707,14 +714,14 @@ function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabPr
       {/* Header with count and generate more button */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-stone-gray">
-          {colorVariants.length} color variant{colorVariants.length !== 1 ? 's' : ''} generated
+          {t('pages.artifact.variantsGenerated', { count: colorVariants.length })}
         </p>
         <button
           onClick={() => setMode('generate')}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-terracotta text-bone-white text-sm font-medium hover:bg-clay transition-colors"
         >
           <Plus className="h-4 w-4" />
-          Generate More
+          {t('pages.artifact.generateMore')}
         </button>
       </div>
 
@@ -724,7 +731,7 @@ function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabPr
         originalImage={sourceImage}
         onVariantClick={handleVariantClick}
         onVariantDelete={handleVariantDelete}
-        emptyMessage="Generate color variants to see historical color reconstructions of your artifact."
+        emptyMessage={t('pages.artifact.generateColorVariants')}
       />
     </div>
   );
@@ -733,23 +740,23 @@ function ColorsTab({ artifactId, colorVariants, images, onRefetch }: ColorsTabPr
 /**
  * Get status message based on colorization state
  */
-function getColorizeStatusMessage(state: string, progress: number): string {
+function getColorizeStatusMessage(state: string, progress: number, t: (key: string) => string): string {
   switch (state) {
     case 'uploading':
-      if (progress < 15) return 'Converting image...';
-      if (progress < 30) return 'Encoding image data...';
-      return 'Uploading to AI service...';
+      if (progress < 15) return t('components.colorization.status.converting');
+      if (progress < 30) return t('components.colorization.status.encoding');
+      return t('components.colorization.status.uploading');
     case 'processing':
-      if (progress < 50) return 'Analyzing artifact surfaces...';
-      if (progress < 70) return 'Applying color scheme...';
-      if (progress < 85) return 'Refining color details...';
-      if (progress < 95) return 'Saving colorized image...';
-      return 'Finalizing...';
+      if (progress < 50) return t('components.colorization.status.analyzing');
+      if (progress < 70) return t('components.colorization.status.applying');
+      if (progress < 85) return t('components.colorization.status.refining');
+      if (progress < 95) return t('components.colorization.status.saving');
+      return t('components.colorization.status.finalizing');
     case 'complete':
-      return 'Colorization complete!';
+      return t('components.colorization.status.complete');
     case 'error':
-      return 'An error occurred';
+      return t('components.colorization.status.error');
     default:
-      return 'Ready to colorize';
+      return t('components.colorization.status.ready');
   }
 }

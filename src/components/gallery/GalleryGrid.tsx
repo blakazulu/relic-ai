@@ -1,4 +1,5 @@
 import { FolderOpen } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { Artifact } from '@/types';
 import { ArtifactCard } from './ArtifactCard';
@@ -12,17 +13,17 @@ interface GalleryGridProps {
 /**
  * Empty state component when no artifacts exist
  */
-function EmptyState() {
+function EmptyState({ t }: { t: (key: string) => string }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
       <div className="w-20 h-20 rounded-full bg-aged-paper border-2 border-desert-sand flex items-center justify-center mb-4">
         <FolderOpen className="w-10 h-10 text-stone-gray/50" />
       </div>
       <h3 className="font-heading text-xl font-semibold text-charcoal mb-2">
-        No Artifacts Yet
+        {t('pages.gallery.noArtifactsYet')}
       </h3>
       <p className="text-stone-gray text-center max-w-xs">
-        Start by capturing photos of an artifact to create your first record
+        {t('pages.gallery.startCapturing')}
       </p>
     </div>
   );
@@ -55,12 +56,14 @@ function LoadingSkeleton() {
  * 1 column on mobile, 2 on tablet, 3 on desktop
  */
 export function GalleryGrid({ artifacts, isLoading = false, className }: GalleryGridProps) {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return <LoadingSkeleton />;
   }
 
   if (artifacts.length === 0) {
-    return <EmptyState />;
+    return <EmptyState t={t} />;
   }
 
   return (

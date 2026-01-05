@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+/* Google Fonts - Including Heebo for Hebrew support */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
 
 /* Tailwind v4 Theme Configuration */
 @theme {
@@ -20,10 +20,11 @@
   --color-rust-red: #A63D2F;
   --color-gold-ochre: #C9A227;
 
-  /* Font Families */
-  --font-heading: "Playfair Display", serif;
-  --font-sans: "Source Sans 3", system-ui, sans-serif;
+  /* Font Families - with Hebrew fallbacks */
+  --font-heading: "Playfair Display", "Heebo", serif;
+  --font-sans: "Source Sans 3", "Heebo", system-ui, sans-serif;
   --font-mono: ui-monospace, "JetBrains Mono", monospace;
+  --font-hebrew: "Heebo", system-ui, sans-serif;
 
   /* Border Radius */
   --radius-sm: 0.25rem;
@@ -66,6 +67,20 @@
     outline: 2px solid var(--color-terracotta);
     outline-offset: 2px;
   }
+}
+
+/* RTL (Hebrew) specific styles */
+html[dir="rtl"] {
+  font-family: var(--font-hebrew);
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  font-family: var(--font-hebrew);
 }
 
 /* Safe area insets for notched devices */

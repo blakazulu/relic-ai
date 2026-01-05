@@ -1,23 +1,25 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Camera, FolderOpen, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useHaptics } from '@/hooks';
 
 interface NavItem {
   to: string;
   icon: React.ComponentType<{ className?: string }>;
-  label: string;
+  labelKey: string;
 }
 
 const navItems: NavItem[] = [
-  { to: '/', icon: Home, label: 'Home' },
-  { to: '/capture', icon: Camera, label: 'Capture' },
-  { to: '/gallery', icon: FolderOpen, label: 'Gallery' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/', icon: Home, labelKey: 'nav.home' },
+  { to: '/capture', icon: Camera, labelKey: 'nav.capture' },
+  { to: '/gallery', icon: FolderOpen, labelKey: 'nav.gallery' },
+  { to: '/settings', icon: Settings, labelKey: 'nav.settings' },
 ];
 
 export function BottomNav() {
   const { haptic } = useHaptics();
+  const { t } = useTranslation();
 
   const handleNavClick = () => {
     haptic('light');
@@ -49,7 +51,7 @@ export function BottomNav() {
                     isActive ? 'text-terracotta' : 'text-stone-gray'
                   )}
                 />
-                <span>{item.label}</span>
+                <span>{t(item.labelKey)}</span>
               </>
             )}
           </NavLink>

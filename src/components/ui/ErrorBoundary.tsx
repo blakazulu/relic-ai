@@ -1,5 +1,6 @@
 import { Component, type ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import i18n from '@/i18n';
 
 interface Props {
   children: ReactNode;
@@ -43,15 +44,15 @@ export class ErrorBoundary extends Component<Props, State> {
               <AlertTriangle className="h-12 w-12 text-rust-red" />
             </div>
             <h1 className="font-heading text-xl font-bold text-charcoal mb-2">
-              Something went wrong
+              {i18n.t('ui.errorBoundary.title')}
             </h1>
             <p className="text-stone-gray mb-6">
-              An unexpected error occurred. Please try refreshing the page.
+              {i18n.t('ui.errorBoundary.description')}
             </p>
             {this.state.error && (
-              <details className="mb-6 text-left rounded-lg bg-aged-paper border border-desert-sand p-3">
+              <details className="mb-6 text-left rtl:text-right rounded-lg bg-aged-paper border border-desert-sand p-3">
                 <summary className="text-sm font-medium text-charcoal cursor-pointer">
-                  Error details
+                  {i18n.t('ui.errorBoundary.errorDetails')}
                 </summary>
                 <pre className="mt-2 text-xs text-rust-red overflow-auto">
                   {this.state.error.message}
@@ -63,7 +64,7 @@ export class ErrorBoundary extends Component<Props, State> {
               className="inline-flex items-center gap-2 rounded-lg bg-terracotta px-6 py-2.5 font-medium text-bone-white transition-colors hover:bg-clay"
             >
               <RefreshCw className="h-4 w-4" />
-              Refresh Page
+              {i18n.t('ui.errorBoundary.refresh')}
             </button>
           </div>
         </div>

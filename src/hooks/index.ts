@@ -11,6 +11,7 @@ export { useDataImport } from './useDataImport';
 export { useOnlineStatus } from './useOnlineStatus';
 export { useOfflineQueue } from './useOfflineQueue';
 export { useHaptics } from './useHaptics';
+export { useLanguage } from './useLanguage';
 export type { ArtifactData, UseArtifactDataReturn } from './useArtifactData';
 export type {
   ReconstructMethod,

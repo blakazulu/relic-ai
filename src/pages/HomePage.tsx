@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Camera, Palette, Box, Sparkles, FolderOpen, Settings, ArrowRight, Layers } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsVisible(true);
@@ -41,12 +43,12 @@ export function HomePage() {
 
           {/* Title */}
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-sienna tracking-tight mb-3 lg:mb-4">
-            Relic AI
+            {t('app.name')}
           </h1>
 
           {/* Tagline */}
           <p className="text-stone-gray text-base md:text-lg lg:text-xl max-w-md lg:max-w-2xl leading-relaxed">
-            Uncover the past with AI-powered archaeological documentation
+            {t('app.tagline')}
           </p>
 
           {/* Decorative line */}
@@ -67,7 +69,7 @@ export function HomePage() {
         >
           <h2 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-charcoal mb-4 lg:mb-8 flex items-center gap-2 lg:gap-3">
             <span className="w-1 h-5 lg:h-6 bg-terracotta rounded-full" />
-            Choose Your Tool
+            {t('pages.home.chooseYourTool')}
           </h2>
 
           <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:gap-8">
@@ -98,28 +100,28 @@ export function HomePage() {
 
                 {/* Content */}
                 <h3 className="font-heading text-xl md:text-2xl lg:text-3xl font-bold text-sienna mb-2 lg:mb-3 group-hover:text-terracotta transition-colors">
-                  Save The Past
+                  {t('pages.home.saveThePast')}
                 </h3>
                 <p className="text-stone-gray text-sm md:text-base lg:text-lg leading-relaxed mb-4 lg:mb-6">
-                  Transform artifact photos into stunning 3D models with AI-generated scholarly analysis cards.
+                  {t('pages.home.saveThePastDesc')}
                 </p>
 
                 {/* Features list */}
                 <div className="flex flex-wrap gap-2 lg:gap-3 mb-4 lg:mb-6">
                   <span className="inline-flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full bg-sienna/10 text-sienna text-xs lg:text-sm font-medium">
                     <Box className="w-3 h-3 lg:w-4 lg:h-4" />
-                    3D Models
+                    {t('pages.home.features.3dModels')}
                   </span>
                   <span className="inline-flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full bg-oxidized-bronze/10 text-oxidized-bronze text-xs lg:text-sm font-medium">
                     <Sparkles className="w-3 h-3 lg:w-4 lg:h-4" />
-                    AI Analysis
+                    {t('pages.home.features.aiAnalysis')}
                   </span>
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 text-terracotta font-medium text-sm lg:text-base group-hover:gap-3 transition-all">
-                  Start Capturing
-                  <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover:translate-x-1" />
+                <div className="flex items-center gap-2 text-terracotta font-medium text-sm lg:text-base group-hover:gap-3 transition-all rtl:flex-row-reverse">
+                  {t('pages.home.startCapturing')}
+                  <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
                 </div>
               </div>
             </Link>
@@ -148,28 +150,28 @@ export function HomePage() {
 
                 {/* Content */}
                 <h3 className="font-heading text-xl md:text-2xl lg:text-3xl font-bold text-desert-teal mb-2 lg:mb-3 group-hover:text-oxidized-bronze transition-colors">
-                  PastPalette
+                  {t('pages.home.pastPalette')}
                 </h3>
                 <p className="text-stone-gray text-sm md:text-base lg:text-lg leading-relaxed mb-4 lg:mb-6">
-                  Restore historical colors to weathered artifacts using culturally-authentic AI colorization.
+                  {t('pages.home.pastPaletteDesc')}
                 </p>
 
                 {/* Features list */}
                 <div className="flex flex-wrap gap-2 lg:gap-3 mb-4 lg:mb-6">
                   <span className="inline-flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full bg-desert-teal/10 text-desert-teal text-xs lg:text-sm font-medium">
                     <Palette className="w-3 h-3 lg:w-4 lg:h-4" />
-                    Colorization
+                    {t('pages.home.features.colorization')}
                   </span>
                   <span className="inline-flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3 py-1 lg:py-1.5 rounded-full bg-gold-ochre/10 text-gold-ochre text-xs lg:text-sm font-medium">
                     <Layers className="w-3 h-3 lg:w-4 lg:h-4" />
-                    Multi-Style
+                    {t('pages.home.features.multiStyle')}
                   </span>
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 text-desert-teal font-medium text-sm lg:text-base group-hover:gap-3 transition-all">
-                  Restore Colors
-                  <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover:translate-x-1" />
+                <div className="flex items-center gap-2 text-desert-teal font-medium text-sm lg:text-base group-hover:gap-3 transition-all rtl:flex-row-reverse">
+                  {t('pages.home.restoreColors')}
+                  <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
                 </div>
               </div>
             </Link>
@@ -188,7 +190,7 @@ export function HomePage() {
           <div className="lg:col-span-2">
             <h2 className="font-heading text-lg md:text-xl lg:text-2xl font-semibold text-charcoal mb-4 lg:mb-6 flex items-center gap-2 lg:gap-3">
               <span className="w-1 h-5 lg:h-6 bg-oxidized-bronze rounded-full" />
-              Quick Access
+              {t('pages.home.quickAccess')}
             </h2>
 
             <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-1 lg:gap-4">
@@ -200,10 +202,10 @@ export function HomePage() {
                   <FolderOpen className="w-5 h-5 lg:w-6 lg:h-6 text-sienna" />
                 </div>
                 <div className="min-w-0">
-                  <span className="block font-medium text-charcoal text-sm md:text-base lg:text-lg truncate">Gallery</span>
-                  <span className="block text-xs lg:text-sm text-stone-gray truncate">View your artifacts</span>
+                  <span className="block font-medium text-charcoal text-sm md:text-base lg:text-lg truncate">{t('nav.gallery')}</span>
+                  <span className="block text-xs lg:text-sm text-stone-gray truncate">{t('pages.home.viewYourArtifacts')}</span>
                 </div>
-                <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-stone-gray/50 ml-auto hidden lg:block group-hover:text-sienna group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-stone-gray/50 ltr:ml-auto rtl:mr-auto hidden lg:block group-hover:text-sienna group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all rtl:rotate-180" />
               </Link>
 
               <Link
@@ -214,10 +216,10 @@ export function HomePage() {
                   <Settings className="w-5 h-5 lg:w-6 lg:h-6 text-stone-gray" />
                 </div>
                 <div className="min-w-0">
-                  <span className="block font-medium text-charcoal text-sm md:text-base lg:text-lg truncate">Settings</span>
-                  <span className="block text-xs lg:text-sm text-stone-gray truncate">Preferences & config</span>
+                  <span className="block font-medium text-charcoal text-sm md:text-base lg:text-lg truncate">{t('nav.settings')}</span>
+                  <span className="block text-xs lg:text-sm text-stone-gray truncate">{t('pages.home.preferencesConfig')}</span>
                 </div>
-                <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-stone-gray/50 ml-auto hidden lg:block group-hover:text-stone-gray group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-stone-gray/50 ltr:ml-auto rtl:mr-auto hidden lg:block group-hover:text-stone-gray group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all rtl:rotate-180" />
               </Link>
             </div>
           </div>
@@ -234,27 +236,25 @@ export function HomePage() {
 
               <div className="relative">
                 <h3 className="font-heading text-base md:text-lg lg:text-xl font-semibold text-sienna mb-2 lg:mb-4">
-                  Preserving History, One Artifact at a Time
+                  {t('pages.home.preservingHistory')}
                 </h3>
                 <p className="text-stone-gray text-sm lg:text-base leading-relaxed max-w-lg lg:max-w-none">
-                  Relic AI combines cutting-edge artificial intelligence with archaeological expertise
-                  to help researchers, students, and enthusiasts document and understand historical artifacts.
-                  Our tools enable professional-grade documentation without expensive equipment.
+                  {t('pages.home.aboutDescription')}
                 </p>
 
                 {/* Stats or highlights */}
                 <div className="flex flex-wrap gap-4 md:gap-6 lg:gap-8 mt-4 lg:mt-6 pt-4 lg:pt-6 border-t border-desert-sand/40">
                   <div className="flex items-center gap-2 lg:gap-3">
                     <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-terracotta" />
-                    <span className="text-xs lg:text-sm text-stone-gray">AI-Powered Analysis</span>
+                    <span className="text-xs lg:text-sm text-stone-gray">{t('pages.home.highlights.aiPowered')}</span>
                   </div>
                   <div className="flex items-center gap-2 lg:gap-3">
                     <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-desert-teal" />
-                    <span className="text-xs lg:text-sm text-stone-gray">Offline-First</span>
+                    <span className="text-xs lg:text-sm text-stone-gray">{t('pages.home.highlights.offlineFirst')}</span>
                   </div>
                   <div className="flex items-center gap-2 lg:gap-3">
                     <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-oxidized-bronze" />
-                    <span className="text-xs lg:text-sm text-stone-gray">Open Source</span>
+                    <span className="text-xs lg:text-sm text-stone-gray">{t('pages.home.highlights.openSource')}</span>
                   </div>
                 </div>
               </div>

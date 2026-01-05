@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Camera, Upload, Info, Zap, Layers, Palette } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { CaptureSession, FileUpload } from '@/components/camera';
 import { cn } from '@/lib/utils';
 import { compressImage, generateId } from '@/lib/utils';
@@ -16,6 +17,9 @@ export function CapturePage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { setCurrentArtifact, setProcessingStatus } = useAppStore();
+  const { t: _t } = useTranslation();
+  // Use alias to avoid unused variable warning in reconstruct mode
+  const t = _t;
 
   // Check if we're in colorize mode from URL param
   const captureMode: CaptureMode = searchParams.get('mode') === 'colorize' ? 'colorize' : 'reconstruct';
@@ -124,10 +128,10 @@ export function CapturePage() {
             <Palette className="w-8 h-8 text-bone-white" />
           </div>
           <h2 className="font-heading text-2xl font-bold text-sienna mb-2">
-            PastPalette
+            {t('pages.home.pastPalette')}
           </h2>
           <p className="text-stone-gray">
-            Restore historical colors to your artifact
+            {t('components.colorization.subtitle')}
           </p>
         </div>
 
@@ -137,10 +141,10 @@ export function CapturePage() {
             <Info className="h-5 w-5 text-desert-teal shrink-0 mt-0.5" />
             <div className="text-sm">
               <p className="font-medium text-desert-teal">
-                For best colorization results
+                {t('pages.capture.forBestColorization')}
               </p>
               <p className="text-stone-gray mt-1">
-                Use a clear, well-lit photo of your artifact. The AI will analyze the image and suggest historically-accurate color reconstructions.
+                {t('pages.capture.colorizationDesc')}
               </p>
             </div>
           </div>
@@ -149,35 +153,35 @@ export function CapturePage() {
         {/* Capture Options */}
         <div className="space-y-4">
           <h3 className="font-heading text-lg font-semibold text-charcoal">
-            Add Your Artifact Photo
+            {t('pages.capture.addYourPhoto')}
           </h3>
 
           <button
-            className="w-full flex items-center gap-4 rounded-xl bg-desert-teal p-5 text-left text-bone-white shadow-md transition-all hover:bg-oxidized-bronze active:scale-[0.98]"
+            className="w-full flex items-center gap-4 rounded-xl bg-desert-teal p-5 text-left text-bone-white shadow-md transition-all hover:bg-oxidized-bronze active:scale-[0.98] rtl:text-right"
             onClick={() => setCaptureMethod('camera')}
           >
             <div className="rounded-full bg-bone-white/20 p-3">
               <Camera className="h-8 w-8" />
             </div>
             <div>
-              <h4 className="font-semibold text-lg">Use Camera</h4>
+              <h4 className="font-semibold text-lg">{t('pages.capture.useCamera')}</h4>
               <p className="text-bone-white/80 text-sm">
-                Take a photo of your artifact
+                {t('pages.capture.takePhoto')}
               </p>
             </div>
           </button>
 
           <button
-            className="w-full flex items-center gap-4 rounded-xl bg-aged-paper border-2 border-dashed border-desert-sand p-5 text-left transition-all hover:border-desert-teal hover:bg-parchment active:scale-[0.98]"
+            className="w-full flex items-center gap-4 rounded-xl bg-aged-paper border-2 border-dashed border-desert-sand p-5 text-left transition-all hover:border-desert-teal hover:bg-parchment active:scale-[0.98] rtl:text-right"
             onClick={() => setCaptureMethod('upload')}
           >
             <div className="rounded-full bg-desert-teal/10 p-3">
               <Upload className="h-8 w-8 text-desert-teal" />
             </div>
             <div>
-              <h4 className="font-semibold text-lg text-charcoal">Upload Photo</h4>
+              <h4 className="font-semibold text-lg text-charcoal">{t('pages.capture.uploadPhoto')}</h4>
               <p className="text-stone-gray text-sm">
-                Select an existing photo from your device
+                {t('pages.capture.selectExisting')}
               </p>
             </div>
           </button>
@@ -186,13 +190,13 @@ export function CapturePage() {
         {/* Color Scheme Preview */}
         <div className="mt-8">
           <h3 className="font-heading text-lg font-semibold text-charcoal mb-4">
-            Available Color Schemes
+            {t('pages.capture.availableSchemes')}
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            <ColorSchemePreview name="Roman" colors={['#8B0000', '#FFD700', '#FFFFFF', '#000080']} />
-            <ColorSchemePreview name="Greek" colors={['#1E90FF', '#FFD700', '#FFFFFF', '#8B4513']} />
-            <ColorSchemePreview name="Egyptian" colors={['#FFD700', '#00CED1', '#8B4513', '#228B22']} />
-            <ColorSchemePreview name="Original" colors={['#C65D3B', '#8B4513', '#D4A574', '#4A7C59']} />
+            <ColorSchemePreview name={t('pages.capture.schemes.roman')} colors={['#8B0000', '#FFD700', '#FFFFFF', '#000080']} />
+            <ColorSchemePreview name={t('pages.capture.schemes.greek')} colors={['#1E90FF', '#FFD700', '#FFFFFF', '#8B4513']} />
+            <ColorSchemePreview name={t('pages.capture.schemes.egyptian')} colors={['#FFD700', '#00CED1', '#8B4513', '#228B22']} />
+            <ColorSchemePreview name={t('pages.capture.schemes.original')} colors={['#C65D3B', '#8B4513', '#D4A574', '#4A7C59']} />
           </div>
         </div>
       </div>
@@ -208,10 +212,10 @@ export function CapturePage() {
           <Info className="h-5 w-5 text-desert-teal shrink-0 mt-0.5" />
           <div className="text-sm">
             <p className="font-medium text-desert-teal">
-              For best results
+              {t('pages.capture.forBestResults')}
             </p>
             <p className="text-stone-gray mt-1">
-              Capture multiple angles of your artifact on a plain background with good lighting.
+              {t('pages.capture.captureMultipleAngles')}
             </p>
           </div>
         </div>
@@ -220,14 +224,14 @@ export function CapturePage() {
       {/* Reconstruction Mode Selector */}
       <div className="mb-6">
         <h3 className="font-heading text-lg font-semibold text-charcoal mb-4">
-          Reconstruction Mode
+          {t('pages.capture.reconstructionMode')}
         </h3>
 
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setReconstructionMode('single')}
             className={cn(
-              'rounded-xl p-4 text-left transition-all',
+              'rounded-xl p-4 text-left rtl:text-right transition-all',
               reconstructionMode === 'single'
                 ? 'border-2 border-terracotta bg-terracotta/5'
                 : 'border border-desert-sand bg-aged-paper hover:border-clay'
@@ -242,18 +246,18 @@ export function CapturePage() {
                 'font-medium',
                 reconstructionMode === 'single' ? 'text-terracotta' : 'text-charcoal'
               )}>
-                Single Photo
+                {t('pages.capture.singlePhoto')}
               </h4>
             </div>
             <p className="text-xs text-stone-gray">
-              Quick 3D from one image. Fast but less detailed.
+              {t('pages.capture.singlePhotoDesc')}
             </p>
           </button>
 
           <button
             onClick={() => setReconstructionMode('multi')}
             className={cn(
-              'rounded-xl p-4 text-left transition-all',
+              'rounded-xl p-4 text-left rtl:text-right transition-all',
               reconstructionMode === 'multi'
                 ? 'border-2 border-terracotta bg-terracotta/5'
                 : 'border border-desert-sand bg-aged-paper hover:border-clay'
@@ -268,11 +272,11 @@ export function CapturePage() {
                 'font-medium',
                 reconstructionMode === 'multi' ? 'text-terracotta' : 'text-charcoal'
               )}>
-                Multi-Photo
+                {t('pages.capture.multiPhoto')}
               </h4>
             </div>
             <p className="text-xs text-stone-gray">
-              Detailed 3D from multiple angles. More accurate.
+              {t('pages.capture.multiPhotoDesc')}
             </p>
           </button>
         </div>
@@ -281,35 +285,35 @@ export function CapturePage() {
       {/* Capture Options */}
       <div className="space-y-4">
         <h3 className="font-heading text-lg font-semibold text-charcoal">
-          Choose Capture Method
+          {t('pages.capture.chooseCaptureMethod')}
         </h3>
 
         <button
-          className="w-full flex items-center gap-4 rounded-xl bg-terracotta p-5 text-left text-bone-white shadow-md transition-all hover:bg-clay active:scale-[0.98]"
+          className="w-full flex items-center gap-4 rounded-xl bg-terracotta p-5 text-left rtl:text-right text-bone-white shadow-md transition-all hover:bg-clay active:scale-[0.98]"
           onClick={() => setCaptureMethod('camera')}
         >
           <div className="rounded-full bg-bone-white/20 p-3">
             <Camera className="h-8 w-8" />
           </div>
           <div>
-            <h4 className="font-semibold text-lg">Use Camera</h4>
+            <h4 className="font-semibold text-lg">{t('pages.capture.useCamera')}</h4>
             <p className="text-bone-white/80 text-sm">
-              Capture photos directly from your device
+              {t('pages.capture.useCameraDesc')}
             </p>
           </div>
         </button>
 
         <button
-          className="w-full flex items-center gap-4 rounded-xl bg-aged-paper border-2 border-dashed border-desert-sand p-5 text-left transition-all hover:border-clay hover:bg-parchment active:scale-[0.98]"
+          className="w-full flex items-center gap-4 rounded-xl bg-aged-paper border-2 border-dashed border-desert-sand p-5 text-left rtl:text-right transition-all hover:border-clay hover:bg-parchment active:scale-[0.98]"
           onClick={() => setCaptureMethod('upload')}
         >
           <div className="rounded-full bg-sienna/10 p-3">
             <Upload className="h-8 w-8 text-sienna" />
           </div>
           <div>
-            <h4 className="font-semibold text-lg text-charcoal">Upload Files</h4>
+            <h4 className="font-semibold text-lg text-charcoal">{t('pages.capture.uploadFiles')}</h4>
             <p className="text-stone-gray text-sm">
-              Select existing photos from your device
+              {t('pages.capture.uploadFilesDesc')}
             </p>
           </div>
         </button>
@@ -318,24 +322,24 @@ export function CapturePage() {
       {/* Tips */}
       <div className="mt-8">
         <h3 className="font-heading text-lg font-semibold text-charcoal mb-4">
-          Capture Tips
+          {t('pages.capture.captureTips')}
         </h3>
         <ul className="space-y-2 text-sm text-stone-gray">
           <li className="flex gap-2">
             <span className="text-terracotta">•</span>
-            Use even, diffused lighting
+            {t('pages.capture.tips.lighting')}
           </li>
           <li className="flex gap-2">
             <span className="text-terracotta">•</span>
-            Place artifact on a neutral background
+            {t('pages.capture.tips.background')}
           </li>
           <li className="flex gap-2">
             <span className="text-terracotta">•</span>
-            Avoid harsh shadows
+            {t('pages.capture.tips.shadows')}
           </li>
           <li className="flex gap-2">
             <span className="text-terracotta">•</span>
-            Include a scale reference if possible
+            {t('pages.capture.tips.scale')}
           </li>
         </ul>
       </div>

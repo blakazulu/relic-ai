@@ -1,4 +1,5 @@
 import { FolderOpen } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { Artifact } from '@/types';
 import { ArtifactListItem } from './ArtifactListItem';
@@ -12,17 +13,17 @@ interface GalleryListProps {
 /**
  * Empty state when no artifacts exist
  */
-function EmptyState() {
+function EmptyState({ t }: { t: (key: string) => string }) {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="w-16 h-16 rounded-full bg-aged-paper border-2 border-desert-sand flex items-center justify-center mb-4">
         <FolderOpen className="w-8 h-8 text-stone-gray/50" />
       </div>
       <h3 className="font-heading text-lg font-semibold text-charcoal mb-2">
-        No artifacts found
+        {t('pages.gallery.noArtifactsFound')}
       </h3>
       <p className="text-sm text-stone-gray text-center max-w-xs">
-        Start capturing artifacts to see them here
+        {t('pages.gallery.startCapturingList')}
       </p>
     </div>
   );
@@ -55,12 +56,14 @@ function LoadingSkeleton() {
  * Vertical list layout for artifacts
  */
 export function GalleryList({ artifacts, isLoading = false, className }: GalleryListProps) {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return <LoadingSkeleton />;
   }
 
   if (artifacts.length === 0) {
-    return <EmptyState />;
+    return <EmptyState t={t} />;
   }
 
   return (

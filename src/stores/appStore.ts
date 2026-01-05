@@ -96,6 +96,9 @@ interface SettingsState {
   // Theme
   theme: 'light' | 'dark' | 'system';
 
+  // Language
+  language: 'en' | 'he' | 'system';
+
   // 3D reconstruction preferences
   default3DMethod: 'single' | 'multi';
   autoRemoveBackground: boolean;
@@ -108,6 +111,7 @@ interface SettingsState {
 
   // Actions
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  setLanguage: (language: 'en' | 'he' | 'system') => void;
   setDefault3DMethod: (method: 'single' | 'multi') => void;
   setAutoRemoveBackground: (auto: boolean) => void;
   setAutoGenerateInfoCard: (auto: boolean) => void;
@@ -119,6 +123,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       // Defaults
       theme: 'system',
+      language: 'system', // Auto-detect from browser
       default3DMethod: 'single',
       autoRemoveBackground: true,
       autoGenerateInfoCard: true,
@@ -126,6 +131,7 @@ export const useSettingsStore = create<SettingsState>()(
 
       // Actions
       setTheme: (theme) => set({ theme }),
+      setLanguage: (language) => set({ language }),
       setDefault3DMethod: (method) => set({ default3DMethod: method }),
       setAutoRemoveBackground: (auto) => set({ autoRemoveBackground: auto }),
       setAutoGenerateInfoCard: (auto) => set({ autoGenerateInfoCard: auto }),

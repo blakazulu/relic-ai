@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Download, X, Smartphone } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -20,6 +21,7 @@ const INSTALL_DISMISSED_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
  * Shows when the app is installable and hasn't been dismissed recently
  */
 export function InstallPrompt() {
+  const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
@@ -142,13 +144,13 @@ export function InstallPrompt() {
               id="install-prompt-title"
               className="font-heading text-lg font-semibold text-charcoal"
             >
-              Install Save The Past
+              {t('ui.installPrompt.title')}
             </h3>
             <p
               id="install-prompt-description"
               className="mt-1 text-sm text-stone-gray"
             >
-              Add to your home screen for quick access and offline use.
+              {t('ui.installPrompt.description')}
             </p>
           </div>
 
@@ -156,7 +158,7 @@ export function InstallPrompt() {
           <button
             onClick={handleDismiss}
             className="flex-shrink-0 p-1 rounded-full text-stone-gray hover:text-charcoal hover:bg-aged-paper transition-colors"
-            aria-label="Dismiss install prompt"
+            aria-label={t('ui.installPrompt.dismiss')}
           >
             <X className="w-5 h-5" />
           </button>
@@ -168,7 +170,7 @@ export function InstallPrompt() {
             onClick={handleDismiss}
             className="flex-1 px-4 py-2 text-sm font-medium text-stone-gray bg-aged-paper rounded-md hover:bg-desert-sand transition-colors"
           >
-            Maybe Later
+            {t('ui.installPrompt.maybeLater')}
           </button>
           <button
             onClick={handleInstall}
@@ -186,12 +188,12 @@ export function InstallPrompt() {
                 <span className="animate-spin">
                   <Download className="w-4 h-4" />
                 </span>
-                Installing...
+                {t('ui.installPrompt.installing')}
               </>
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                Install App
+                {t('ui.installPrompt.installApp')}
               </>
             )}
           </button>

@@ -1,0 +1,311 @@
+{
+  "app": {
+    "name": "Relic AI",
+    "tagline": "חשפו את העבר עם תיעוד ארכיאולוגי מונחה בינה מלאכותית"
+  },
+  "nav": {
+    "home": "בית",
+    "capture": "צילום",
+    "gallery": "גלריה",
+    "settings": "הגדרות"
+  },
+  "pages": {
+    "home": {
+      "chooseYourTool": "בחרו את הכלי שלכם",
+      "saveThePast": "שימור העבר",
+      "saveThePastDesc": "הפכו תמונות ממצאים למודלים תלת-ממדיים מרהיבים עם כרטיסי ניתוח מדעיים המופקים על ידי בינה מלאכותית.",
+      "pastPalette": "פלטת העבר",
+      "pastPaletteDesc": "שחזרו צבעים היסטוריים לממצאים בלויים באמצעות צביעה אותנטית-תרבותית מבוססת בינה מלאכותית.",
+      "startCapturing": "התחילו לצלם",
+      "restoreColors": "שחזרו צבעים",
+      "quickAccess": "גישה מהירה",
+      "viewYourArtifacts": "צפו בממצאים שלכם",
+      "preferencesConfig": "העדפות והגדרות",
+      "preservingHistory": "משמרים את ההיסטוריה, ממצא אחר ממצא",
+      "aboutDescription": "Relic AI משלב בינה מלאכותית מתקדמת עם מומחיות ארכיאולוגית כדי לעזור לחוקרים, סטודנטים וחובבים לתעד ולהבין ממצאים היסטוריים. הכלים שלנו מאפשרים תיעוד ברמה מקצועית ללא ציוד יקר.",
+      "features": {
+        "3dModels": "מודלים תלת-ממדיים",
+        "aiAnalysis": "ניתוח AI",
+        "colorization": "צביעה",
+        "multiStyle": "רב-סגנוני"
+      },
+      "highlights": {
+        "aiPowered": "ניתוח מונחה AI",
+        "offlineFirst": "עובד גם אופליין",
+        "openSource": "קוד פתוח"
+      }
+    },
+    "capture": {
+      "title": "צילום ממצא",
+      "pastPaletteTitle": "פלטת העבר",
+      "forBestResults": "לתוצאות הטובות ביותר",
+      "captureMultipleAngles": "צלמו את הממצא מכמה זוויות על רקע פשוט עם תאורה טובה.",
+      "forBestColorization": "לתוצאות צביעה הטובות ביותר",
+      "colorizationDesc": "השתמשו בתמונה ברורה ומוארת היטב של הממצא שלכם. הבינה המלאכותית תנתח את התמונה ותציע שחזורי צבע מדויקים היסטורית.",
+      "addYourPhoto": "הוסיפו תמונה של הממצא",
+      "reconstructionMode": "מצב שחזור",
+      "singlePhoto": "תמונה בודדת",
+      "singlePhotoDesc": "מודל תלת-ממדי מהיר מתמונה אחת. מהיר אך פחות מפורט.",
+      "multiPhoto": "ריבוי תמונות",
+      "multiPhotoDesc": "מודל תלת-ממדי מפורט מכמה זוויות. מדויק יותר.",
+      "chooseCaptureMethod": "בחרו שיטת צילום",
+      "useCamera": "השתמשו במצלמה",
+      "useCameraDesc": "צלמו תמונות ישירות מהמכשיר שלכם",
+      "takePhoto": "צלמו תמונה של הממצא",
+      "uploadFiles": "העלו קבצים",
+      "uploadFilesDesc": "בחרו תמונות קיימות מהמכשיר שלכם",
+      "uploadPhoto": "העלו תמונה",
+      "selectExisting": "בחרו תמונה קיימת מהמכשיר שלכם",
+      "captureTips": "טיפים לצילום",
+      "availableSchemes": "סכמות צבע זמינות",
+      "tips": {
+        "lighting": "השתמשו בתאורה אחידה ומפוזרת",
+        "background": "הניחו את הממצא על רקע ניטרלי",
+        "shadows": "הימנעו מצללים חדים",
+        "scale": "כללו אובייקט לסקלה אם אפשר"
+      },
+      "schemes": {
+        "roman": "רומי",
+        "greek": "יווני",
+        "egyptian": "מצרי",
+        "original": "מקורי"
+      },
+      "angles": {
+        "front": "חזית",
+        "back": "גב",
+        "leftSide": "צד שמאל",
+        "rightSide": "צד ימין",
+        "top": "מלמעלה",
+        "detail": "פרט"
+      },
+      "angleTips": {
+        "front": "צלמו את המבט הקדמי הראשי",
+        "back": "צלמו את גב הממצא",
+        "leftSide": "צלמו את הצד השמאלי",
+        "rightSide": "צלמו את הצד הימני",
+        "top": "צלמו מלמעלה",
+        "detail": "צלמו פרטים חשובים (אופציונלי)"
+      }
+    },
+    "gallery": {
+      "title": "הממצאים שלי",
+      "searchPlaceholder": "חפשו ממצאים...",
+      "allStatus": "כל הסטטוסים",
+      "sortDate": "תאריך",
+      "sortName": "שם",
+      "sortStatus": "סטטוס",
+      "oldestFirst": "ישנים קודם",
+      "newestFirst": "חדשים קודם",
+      "artifactFound": "נמצא ממצא {{count}}",
+      "artifactFound_plural": "נמצאו {{count}} ממצאים",
+      "gridView": "תצוגת רשת",
+      "listView": "תצוגת רשימה",
+      "newCapture": "צילום חדש",
+      "unnamedArtifact": "ממצא ללא שם",
+      "noArtifactsYet": "אין ממצאים עדיין",
+      "startCapturing": "התחילו בצילום תמונות של ממצא כדי ליצור את הרשומה הראשונה שלכם",
+      "noArtifactsFound": "לא נמצאו ממצאים",
+      "startCapturingList": "התחילו לצלם ממצאים כדי לראות אותם כאן",
+      "has3DModel": "יש מודל תלת-ממדי",
+      "hasInfoCard": "יש כרטיס מידע"
+    },
+    "settings": {
+      "title": "הגדרות",
+      "appearance": "מראה",
+      "theme": "ערכת נושא",
+      "darkMode": "מצב כהה",
+      "lightMode": "מצב בהיר",
+      "language": "שפה",
+      "languageDesc": "בחרו את השפה המועדפת עליכם",
+      "mobileExperience": "חוויית מובייל",
+      "hapticFeedback": "משוב רטט",
+      "vibrationEnabled": "רטט מופעל",
+      "vibrationDisabled": "רטט כבוי",
+      "dataManagement": "ניהול נתונים",
+      "storageUsed": "אחסון בשימוש",
+      "calculating": "מחשב...",
+      "exportAllData": "ייצוא כל הנתונים",
+      "exportDesc": "הורידו גיבוי של כל הממצאים",
+      "importData": "ייבוא נתונים",
+      "importDesc": "שחזרו מקובץ גיבוי",
+      "clearAllData": "מחקו את כל הנתונים",
+      "clearDesc": "מחקו את כל הממצאים השמורים",
+      "about": "אודות",
+      "version": "גרסה {{version}}",
+      "sourceCode": "קוד מקור",
+      "viewOnGitHub": "צפו ב-GitHub",
+      "disclaimer": "הבהרה:",
+      "disclaimerText": "כל התוכן המיוצר על ידי בינה מלאכותית באפליקציה זו הוא ספקולטיבי ויש לאמת אותו על ידי ארכיאולוגים מוסמכים. כלי זה מיועד למטרות תיעוד בלבד."
+    },
+    "artifact": {
+      "title": "פרטי ממצא",
+      "notFound": "הממצא לא נמצא",
+      "couldNotLoad": "לא ניתן היה לטעון את הממצא הזה.",
+      "backToGallery": "חזרה לגלריה",
+      "loading": "טוען ממצא...",
+      "tabs": {
+        "model": "מודל תלת-ממדי",
+        "photos": "תמונות",
+        "info": "מידע",
+        "colors": "צבעים"
+      },
+      "noPhotos": "לא צולמו תמונות",
+      "photosCaptured": "צולמה תמונה {{count}}",
+      "photosCaptured_plural": "צולמו {{count}} תמונות",
+      "noImagesAvailable": "אין תמונות זמינות",
+      "captureFirst": "צלמו תמונות של הממצא שלכם תחילה כדי ליצור וריאנטים צבעוניים.",
+      "variantsGenerated": "נוצר וריאנט צבע {{count}}",
+      "variantsGenerated_plural": "נוצרו {{count}} וריאנטים צבעוניים",
+      "generateMore": "צרו עוד",
+      "generateColorVariants": "צרו וריאנטים צבעוניים כדי לראות שחזורי צבע היסטוריים של הממצא שלכם.",
+      "export": "ייצוא",
+      "regenerate": "צרו מחדש"
+    }
+  },
+  "components": {
+    "reconstruction": {
+      "title": "שחזור תלת-ממדי",
+      "subtitle": "צרו מודל תלת-ממדי מתמונות הממצא שלכם",
+      "loadModelFirst": "טענו מודל תלת-ממדי תחילה",
+      "enterCustomPrompt": "הזינו הנחיה מותאמת אישית",
+      "generateColors": "צרו צבעים",
+      "needMore": "נדרשת עוד תמונה {{count}}",
+      "needMore_plural": "נדרשות עוד {{count}} תמונות",
+      "startReconstruction": "התחילו שחזור ({{count}} תמונות)",
+      "status": {
+        "converting": "ממיר תמונות...",
+        "encoding": "מקודד נתוני תמונה...",
+        "uploading": "מעלה לשרת...",
+        "starting": "מתחיל שחזור תלת-ממדי...",
+        "analyzing": "מנתח מאפייני תמונה...",
+        "building": "בונה גיאומטריה תלת-ממדית...",
+        "saving": "שומר מודל...",
+        "finalizing": "מסיים...",
+        "complete": "השחזור הושלם!",
+        "error": "אירעה שגיאה",
+        "ready": "מוכן להתחלה"
+      }
+    },
+    "colorization": {
+      "title": "צביעת פלטת העבר",
+      "subtitle": "שחזרו צבעים מקוריים לממצא שלכם",
+      "status": {
+        "converting": "ממיר תמונה...",
+        "encoding": "מקודד נתוני תמונה...",
+        "uploading": "מעלה לשירות AI...",
+        "analyzing": "מנתח משטחי ממצא...",
+        "applying": "מחיל סכמת צבעים...",
+        "refining": "משפר פרטי צבע...",
+        "saving": "שומר תמונה צבועה...",
+        "finalizing": "מסיים...",
+        "complete": "הצביעה הושלמה!",
+        "error": "אירעה שגיאה",
+        "ready": "מוכן לצביעה"
+      }
+    },
+    "infoCard": {
+      "noImagesAvailable": "אין תמונות זמינות",
+      "captureFirst": "צלמו תמונות של הממצא שלכם תחילה כדי ליצור כרטיס מידע AI.",
+      "generationFailed": "היצירה נכשלה",
+      "errorOccurred": "אירעה שגיאה ביצירת כרטיס המידע.",
+      "cancel": "ביטול",
+      "tryAgain": "נסו שוב",
+      "generateInfoCard": "צרו כרטיס מידע AI",
+      "addContext": "הוסיפו הקשר לשיפור דיוק הניתוח",
+      "imageSelected": "תמונה נבחרה לניתוח",
+      "imageInfo": "מבט {{angle}}",
+      "totalImages": "{{count}} תמונות בסך הכל",
+      "aiDisclaimer": "ניתוח AI הוא ספקולטיבי ויש לאמת אותו על ידי ארכיאולוגים מוסמכים.",
+      "status": {
+        "preparing": "מכין תמונה...",
+        "encoding": "מקודד נתוני תמונה...",
+        "sending": "שולח ל-AI...",
+        "analyzing": "מנתח ממצא...",
+        "identifying": "מזהה מאפיינים...",
+        "generating": "יוצר כרטיס מידע...",
+        "saving": "שומר במסד הנתונים...",
+        "finishing": "מסיים...",
+        "complete": "כרטיס המידע נוצר!"
+      }
+    },
+    "modelViewer": {
+      "modelDetails": "פרטי המודל",
+      "format": "פורמט",
+      "source": "מקור",
+      "singleImage": "תמונה בודדת",
+      "multiImage": "ריבוי תמונות",
+      "created": "נוצר",
+      "size": "גודל",
+      "unknown": "לא ידוע",
+      "download3DModel": "הורידו מודל תלת-ממדי",
+      "notSatisfied": "לא מרוצים מהתוצאה? אתם יכולים ליצור מחדש את המודל התלת-ממדי.",
+      "generateNew": "צרו מודל חדש"
+    },
+    "fileUpload": {
+      "invalidType": "סוג קובץ לא חוקי. מקובל: JPEG, PNG, WebP, HEIC",
+      "fileTooLarge": "הקובץ גדול מדי ({{size}}MB). מקסימום: {{max}}MB",
+      "maxFilesReached": "ניתן להוסיף עוד {{count}} קבצים בלבד. מקסימום: {{max}}"
+    },
+    "deleteDialog": {
+      "title": "למחוק את הממצא?",
+      "message": "האם אתם בטוחים שברצונכם למחוק את {{name}}?",
+      "warning": "פעולה זו תמחק לצמיתות את כל התמונות, המודלים התלת-ממדיים, כרטיסי המידע והווריאנטים הצבעוניים המשויכים לממצא זה. לא ניתן לבטל פעולה זו.",
+      "cancel": "ביטול",
+      "delete": "מחיקה"
+    }
+  },
+  "ui": {
+    "installPrompt": {
+      "title": "התקינו את Relic AI",
+      "description": "הוסיפו למסך הבית לגישה מהירה ושימוש אופליין.",
+      "dismiss": "סגור הודעת התקנה",
+      "maybeLater": "אולי אחר כך",
+      "installing": "מתקין...",
+      "installApp": "התקנת האפליקציה"
+    },
+    "errorBoundary": {
+      "title": "משהו השתבש",
+      "description": "אירעה שגיאה בלתי צפויה. אנא נסו לרענן את הדף.",
+      "errorDetails": "פרטי השגיאה",
+      "refresh": "רענון הדף"
+    },
+    "offlineIndicator": {
+      "backOnline": "שוב מחוברים!",
+      "offline": "אתם במצב אופליין. השינויים יסונכרנו כשתתחברו.",
+      "dismiss": "סגור"
+    },
+    "loadingScreen": {
+      "loading": "טוען..."
+    }
+  },
+  "common": {
+    "buttons": {
+      "save": "שמירה",
+      "cancel": "ביטול",
+      "delete": "מחיקה",
+      "edit": "עריכה",
+      "close": "סגירה",
+      "back": "חזרה",
+      "next": "הבא",
+      "done": "סיום",
+      "retry": "נסה שוב"
+    },
+    "status": {
+      "draft": "טיוטה",
+      "images": "תמונות",
+      "processing": "מעבד",
+      "analyzing": "מנתח",
+      "complete": "הושלם",
+      "error": "שגיאה",
+      "unknown": "לא ידוע"
+    },
+    "errors": {
+      "generic": "משהו השתבש",
+      "notFound": "לא נמצא",
+      "networkError": "שגיאת רשת"
+    },
+    "labels": {
+      "loading": "טוען..."
+    }
+  }
+}

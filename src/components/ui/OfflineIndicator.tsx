@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CloudOff, Cloud, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
@@ -7,6 +8,7 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
  * Fixed position banner showing offline/online status
  */
 export function OfflineIndicator() {
+  const { t } = useTranslation();
   const { isOnline, wasOffline } = useOnlineStatus();
   const [isDismissed, setIsDismissed] = useState(false);
   const [showBackOnline, setShowBackOnline] = useState(false);
@@ -53,16 +55,16 @@ export function OfflineIndicator() {
       {showBackOnline ? (
         <>
           <Cloud className="h-4 w-4" />
-          <span>Back online!</span>
+          <span>{t('ui.offlineIndicator.backOnline')}</span>
         </>
       ) : (
         <>
           <CloudOff className="h-4 w-4" />
-          <span>You are offline. Changes will be synced when connected.</span>
+          <span>{t('ui.offlineIndicator.offline')}</span>
           <button
             onClick={() => setIsDismissed(true)}
-            className="ml-2 p-1 rounded-full hover:bg-charcoal/10 transition-colors"
-            aria-label="Dismiss"
+            className="ml-2 rtl:ml-0 rtl:mr-2 p-1 rounded-full hover:bg-charcoal/10 transition-colors"
+            aria-label={t('ui.offlineIndicator.dismiss')}
           >
             <X className="h-4 w-4" />
           </button>

@@ -1,0 +1,311 @@
+{
+  "app": {
+    "name": "Relic AI",
+    "tagline": "Uncover the past with AI-powered archaeological documentation"
+  },
+  "nav": {
+    "home": "Home",
+    "capture": "Capture",
+    "gallery": "Gallery",
+    "settings": "Settings"
+  },
+  "pages": {
+    "home": {
+      "chooseYourTool": "Choose Your Tool",
+      "saveThePast": "Save The Past",
+      "saveThePastDesc": "Transform artifact photos into stunning 3D models with AI-generated scholarly analysis cards.",
+      "pastPalette": "PastPalette",
+      "pastPaletteDesc": "Restore historical colors to weathered artifacts using culturally-authentic AI colorization.",
+      "startCapturing": "Start Capturing",
+      "restoreColors": "Restore Colors",
+      "quickAccess": "Quick Access",
+      "viewYourArtifacts": "View your artifacts",
+      "preferencesConfig": "Preferences & config",
+      "preservingHistory": "Preserving History, One Artifact at a Time",
+      "aboutDescription": "Relic AI combines cutting-edge artificial intelligence with archaeological expertise to help researchers, students, and enthusiasts document and understand historical artifacts. Our tools enable professional-grade documentation without expensive equipment.",
+      "features": {
+        "3dModels": "3D Models",
+        "aiAnalysis": "AI Analysis",
+        "colorization": "Colorization",
+        "multiStyle": "Multi-Style"
+      },
+      "highlights": {
+        "aiPowered": "AI-Powered Analysis",
+        "offlineFirst": "Offline-First",
+        "openSource": "Open Source"
+      }
+    },
+    "capture": {
+      "title": "Capture Artifact",
+      "pastPaletteTitle": "PastPalette",
+      "forBestResults": "For best results",
+      "captureMultipleAngles": "Capture multiple angles of your artifact on a plain background with good lighting.",
+      "forBestColorization": "For best colorization results",
+      "colorizationDesc": "Use a clear, well-lit photo of your artifact. The AI will analyze the image and suggest historically-accurate color reconstructions.",
+      "addYourPhoto": "Add Your Artifact Photo",
+      "reconstructionMode": "Reconstruction Mode",
+      "singlePhoto": "Single Photo",
+      "singlePhotoDesc": "Quick 3D from one image. Fast but less detailed.",
+      "multiPhoto": "Multi-Photo",
+      "multiPhotoDesc": "Detailed 3D from multiple angles. More accurate.",
+      "chooseCaptureMethod": "Choose Capture Method",
+      "useCamera": "Use Camera",
+      "useCameraDesc": "Capture photos directly from your device",
+      "takePhoto": "Take a photo of your artifact",
+      "uploadFiles": "Upload Files",
+      "uploadFilesDesc": "Select existing photos from your device",
+      "uploadPhoto": "Upload Photo",
+      "selectExisting": "Select an existing photo from your device",
+      "captureTips": "Capture Tips",
+      "availableSchemes": "Available Color Schemes",
+      "tips": {
+        "lighting": "Use even, diffused lighting",
+        "background": "Place artifact on a neutral background",
+        "shadows": "Avoid harsh shadows",
+        "scale": "Include a scale reference if possible"
+      },
+      "schemes": {
+        "roman": "Roman",
+        "greek": "Greek",
+        "egyptian": "Egyptian",
+        "original": "Original"
+      },
+      "angles": {
+        "front": "Front",
+        "back": "Back",
+        "leftSide": "Left Side",
+        "rightSide": "Right Side",
+        "top": "Top",
+        "detail": "Detail"
+      },
+      "angleTips": {
+        "front": "Capture the main front view",
+        "back": "Capture the back of the artifact",
+        "leftSide": "Capture the left side",
+        "rightSide": "Capture the right side",
+        "top": "Capture from above",
+        "detail": "Capture any important details (optional)"
+      }
+    },
+    "gallery": {
+      "title": "My Artifacts",
+      "searchPlaceholder": "Search artifacts...",
+      "allStatus": "All Status",
+      "sortDate": "Date",
+      "sortName": "Name",
+      "sortStatus": "Status",
+      "oldestFirst": "Oldest First",
+      "newestFirst": "Newest First",
+      "artifactFound": "{{count}} artifact found",
+      "artifactFound_plural": "{{count}} artifacts found",
+      "gridView": "Grid view",
+      "listView": "List view",
+      "newCapture": "New Capture",
+      "unnamedArtifact": "Unnamed Artifact",
+      "noArtifactsYet": "No Artifacts Yet",
+      "startCapturing": "Start by capturing photos of an artifact to create your first record",
+      "noArtifactsFound": "No artifacts found",
+      "startCapturingList": "Start capturing artifacts to see them here",
+      "has3DModel": "Has 3D model",
+      "hasInfoCard": "Has info card"
+    },
+    "settings": {
+      "title": "Settings",
+      "appearance": "Appearance",
+      "theme": "Theme",
+      "darkMode": "Dark mode",
+      "lightMode": "Light mode",
+      "language": "Language",
+      "languageDesc": "Choose your preferred language",
+      "mobileExperience": "Mobile Experience",
+      "hapticFeedback": "Haptic Feedback",
+      "vibrationEnabled": "Vibration enabled",
+      "vibrationDisabled": "Vibration disabled",
+      "dataManagement": "Data Management",
+      "storageUsed": "Storage Used",
+      "calculating": "Calculating...",
+      "exportAllData": "Export All Data",
+      "exportDesc": "Download a backup of all artifacts",
+      "importData": "Import Data",
+      "importDesc": "Restore from a backup file",
+      "clearAllData": "Clear All Data",
+      "clearDesc": "Delete all stored artifacts",
+      "about": "About",
+      "version": "Version {{version}}",
+      "sourceCode": "Source Code",
+      "viewOnGitHub": "View on GitHub",
+      "disclaimer": "Disclaimer:",
+      "disclaimerText": "All AI-generated content in this app is speculative and should be verified by qualified archaeologists. This tool is for documentation purposes only."
+    },
+    "artifact": {
+      "title": "Artifact Details",
+      "notFound": "Artifact Not Found",
+      "couldNotLoad": "This artifact could not be loaded.",
+      "backToGallery": "Back to Gallery",
+      "loading": "Loading artifact...",
+      "tabs": {
+        "model": "3D Model",
+        "photos": "Photos",
+        "info": "Info",
+        "colors": "Colors"
+      },
+      "noPhotos": "No photos captured",
+      "photosCaptured": "{{count}} photo captured",
+      "photosCaptured_plural": "{{count}} photos captured",
+      "noImagesAvailable": "No Images Available",
+      "captureFirst": "Capture photos of your artifact first to generate color variants.",
+      "variantsGenerated": "{{count}} color variant generated",
+      "variantsGenerated_plural": "{{count}} color variants generated",
+      "generateMore": "Generate More",
+      "generateColorVariants": "Generate color variants to see historical color reconstructions of your artifact.",
+      "export": "Export",
+      "regenerate": "Regenerate"
+    }
+  },
+  "components": {
+    "reconstruction": {
+      "title": "3D Reconstruction",
+      "subtitle": "Create a 3D model from your artifact photos",
+      "loadModelFirst": "Load a 3D model first",
+      "enterCustomPrompt": "Enter a custom prompt",
+      "generateColors": "Generate Colors",
+      "needMore": "Need {{count}} more image",
+      "needMore_plural": "Need {{count}} more images",
+      "startReconstruction": "Start Reconstruction ({{count}} images)",
+      "status": {
+        "converting": "Converting images...",
+        "encoding": "Encoding image data...",
+        "uploading": "Uploading to server...",
+        "starting": "Starting 3D reconstruction...",
+        "analyzing": "Analyzing image features...",
+        "building": "Building 3D geometry...",
+        "saving": "Saving model...",
+        "finalizing": "Finalizing...",
+        "complete": "Reconstruction complete!",
+        "error": "An error occurred",
+        "ready": "Ready to start"
+      }
+    },
+    "colorization": {
+      "title": "PastPalette Colorization",
+      "subtitle": "Restore original colors to your artifact",
+      "status": {
+        "converting": "Converting image...",
+        "encoding": "Encoding image data...",
+        "uploading": "Uploading to AI service...",
+        "analyzing": "Analyzing artifact surfaces...",
+        "applying": "Applying color scheme...",
+        "refining": "Refining color details...",
+        "saving": "Saving colorized image...",
+        "finalizing": "Finalizing...",
+        "complete": "Colorization complete!",
+        "error": "An error occurred",
+        "ready": "Ready to colorize"
+      }
+    },
+    "infoCard": {
+      "noImagesAvailable": "No Images Available",
+      "captureFirst": "Capture some photos of your artifact first to generate an AI info card.",
+      "generationFailed": "Generation Failed",
+      "errorOccurred": "An error occurred while generating the info card.",
+      "cancel": "Cancel",
+      "tryAgain": "Try Again",
+      "generateInfoCard": "Generate AI Info Card",
+      "addContext": "Add context to improve analysis accuracy",
+      "imageSelected": "Image selected for analysis",
+      "imageInfo": "{{angle}} view",
+      "totalImages": "{{count}} total images",
+      "aiDisclaimer": "AI analysis is speculative and should be verified by qualified archaeologists.",
+      "status": {
+        "preparing": "Preparing image...",
+        "encoding": "Encoding image data...",
+        "sending": "Sending to AI...",
+        "analyzing": "Analyzing artifact...",
+        "identifying": "Identifying characteristics...",
+        "generating": "Generating info card...",
+        "saving": "Saving to database...",
+        "finishing": "Finishing up...",
+        "complete": "Info card generated!"
+      }
+    },
+    "modelViewer": {
+      "modelDetails": "Model Details",
+      "format": "Format",
+      "source": "Source",
+      "singleImage": "Single Image",
+      "multiImage": "Multi-Image",
+      "created": "Created",
+      "size": "Size",
+      "unknown": "Unknown",
+      "download3DModel": "Download 3D Model",
+      "notSatisfied": "Not satisfied with the result? You can regenerate the 3D model.",
+      "generateNew": "Generate New Model"
+    },
+    "fileUpload": {
+      "invalidType": "Invalid file type. Accepted: JPEG, PNG, WebP, HEIC",
+      "fileTooLarge": "File too large ({{size}}MB). Max: {{max}}MB",
+      "maxFilesReached": "Can only add {{count}} more file(s). Max: {{max}}"
+    },
+    "deleteDialog": {
+      "title": "Delete Artifact?",
+      "message": "Are you sure you want to delete {{name}}?",
+      "warning": "This will permanently delete all images, 3D models, info cards, and color variants associated with this artifact. This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
+  },
+  "ui": {
+    "installPrompt": {
+      "title": "Install Relic AI",
+      "description": "Add to your home screen for quick access and offline use.",
+      "dismiss": "Dismiss install prompt",
+      "maybeLater": "Maybe Later",
+      "installing": "Installing...",
+      "installApp": "Install App"
+    },
+    "errorBoundary": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try refreshing the page.",
+      "errorDetails": "Error details",
+      "refresh": "Refresh Page"
+    },
+    "offlineIndicator": {
+      "backOnline": "Back online!",
+      "offline": "You are offline. Changes will be synced when connected.",
+      "dismiss": "Dismiss"
+    },
+    "loadingScreen": {
+      "loading": "Loading..."
+    }
+  },
+  "common": {
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "retry": "Retry"
+    },
+    "status": {
+      "draft": "Draft",
+      "images": "Images",
+      "processing": "Processing",
+      "analyzing": "Analyzing",
+      "complete": "Complete",
+      "error": "Error",
+      "unknown": "Unknown"
+    },
+    "errors": {
+      "generic": "Something went wrong",
+      "notFound": "Not found",
+      "networkError": "Network error"
+    },
+    "labels": {
+      "loading": "Loading..."
+    }
+  }
+}

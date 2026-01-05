@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { formatDate } from '@/lib/utils';
 import type { Artifact } from '@/types';
@@ -13,22 +14,22 @@ interface ArtifactCardProps {
 /**
  * Get status badge styling based on artifact status
  */
-function getStatusStyle(status: Artifact['status']): { bg: string; text: string; label: string } {
+function getStatusStyle(status: Artifact['status'], t: (key: string) => string): { bg: string; text: string; label: string } {
   switch (status) {
     case 'draft':
-      return { bg: 'bg-stone-gray/20', text: 'text-stone-gray', label: 'Draft' };
+      return { bg: 'bg-stone-gray/20', text: 'text-stone-gray', label: t('common.status.draft') };
     case 'images-captured':
-      return { bg: 'bg-desert-teal/20', text: 'text-desert-teal', label: 'Images' };
+      return { bg: 'bg-desert-teal/20', text: 'text-desert-teal', label: t('common.status.images') };
     case 'processing-3d':
-      return { bg: 'bg-gold-ochre/20', text: 'text-gold-ochre', label: 'Processing' };
+      return { bg: 'bg-gold-ochre/20', text: 'text-gold-ochre', label: t('common.status.processing') };
     case 'processing-info':
-      return { bg: 'bg-gold-ochre/20', text: 'text-gold-ochre', label: 'Analyzing' };
+      return { bg: 'bg-gold-ochre/20', text: 'text-gold-ochre', label: t('common.status.analyzing') };
     case 'complete':
-      return { bg: 'bg-oxidized-bronze/20', text: 'text-oxidized-bronze', label: 'Complete' };
+      return { bg: 'bg-oxidized-bronze/20', text: 'text-oxidized-bronze', label: t('common.status.complete') };
     case 'error':
-      return { bg: 'bg-rust-red/20', text: 'text-rust-red', label: 'Error' };
+      return { bg: 'bg-rust-red/20', text: 'text-rust-red', label: t('common.status.error') };
     default:
-      return { bg: 'bg-stone-gray/20', text: 'text-stone-gray', label: 'Unknown' };
+      return { bg: 'bg-stone-gray/20', text: 'text-stone-gray', label: t('common.status.unknown') };
   }
 }
 
@@ -38,6 +39,7 @@ function getStatusStyle(status: Artifact['status']): { bg: string; text: string;
  */
 export function ArtifactCard({ artifact, className }: ArtifactCardProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
 
   // Create object URL for thumbnail blob
@@ -50,8 +52,8 @@ export function ArtifactCard({ artifact, className }: ArtifactCardProps) {
     return undefined;
   }, [artifact.thumbnailBlob]);
 
-  const statusStyle = getStatusStyle(artifact.status);
-  const displayName = artifact.metadata?.name || 'Unnamed Artifact';
+  const statusStyle = getStatusStyle(artifact.status, t);
+  const displayName = artifact.metadata?.name || t('pages.gallery.unnamedArtifact');
   const siteName = artifact.metadata?.siteName;
   const displayDate = formatDate(artifact.metadata?.dateFound || artifact.createdAt);
 

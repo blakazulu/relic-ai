@@ -1,36 +1,38 @@
 import { useLocation, Link, NavLink, useSearchParams } from 'react-router-dom';
 import { Home, Camera, FolderOpen, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-
-const pageTitles: Record<string, string> = {
-  '/': 'Relic AI',
-  '/capture': 'Capture Artifact',
-  '/gallery': 'My Artifacts',
-  '/settings': 'Settings',
-};
+import { LanguageSelector } from '@/components/ui';
 
 const navItems = [
-  { to: '/', icon: Home, label: 'Home' },
-  { to: '/capture', icon: Camera, label: 'Capture' },
-  { to: '/gallery', icon: FolderOpen, label: 'Gallery' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/', icon: Home, labelKey: 'nav.home' },
+  { to: '/capture', icon: Camera, labelKey: 'nav.capture' },
+  { to: '/gallery', icon: FolderOpen, labelKey: 'nav.gallery' },
+  { to: '/settings', icon: Settings, labelKey: 'nav.settings' },
 ];
 
 export function Header() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
   const isHomePage = location.pathname === '/';
 
   // Get title based on current path
   const getTitle = () => {
     if (location.pathname.startsWith('/artifact/')) {
-      return 'Artifact Details';
+      return t('pages.artifact.title');
     }
     // Show PastPalette when in colorize mode
     if (location.pathname === '/capture' && searchParams.get('mode') === 'colorize') {
-      return 'PastPalette';
+      return t('pages.capture.pastPaletteTitle');
     }
-    return pageTitles[location.pathname] || 'Relic AI';
+    const pageTitles: Record<string, string> = {
+      '/': t('app.name'),
+      '/capture': t('pages.capture.title'),
+      '/gallery': t('pages.gallery.title'),
+      '/settings': t('pages.settings.title'),
+    };
+    return pageTitles[location.pathname] || t('app.name');
   };
 
   return (
@@ -87,13 +89,15 @@ export function Header() {
                 }
               >
                 <item.icon className="w-4 h-4" />
-                <span>{item.label}</span>
+                <span>{t(item.labelKey)}</span>
               </NavLink>
             ))}
           </nav>
 
-          {/* Desktop: Decorative element / spacer for non-home pages */}
-          <div className="hidden lg:block w-10" />
+          {/* Language selector */}
+          <div className="flex items-center">
+            <LanguageSelector variant="compact" />
+          </div>
         </div>
       </div>
     </header>

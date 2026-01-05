@@ -1,5 +1,6 @@
 import { Grid, List, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { GalleryFilters } from './GalleryFilters';
 import type { ArtifactStatus } from '@/types';
@@ -28,6 +29,8 @@ export function GalleryToolbar({
   toggleSortOrder,
   resultCount,
 }: GalleryToolbarProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-4">
       {/* Top Row: View Toggle + New Capture Button */}
@@ -42,7 +45,7 @@ export function GalleryToolbar({
                 ? 'bg-terracotta text-bone-white'
                 : 'text-stone-gray hover:text-charcoal hover:bg-desert-sand/20'
             )}
-            aria-label="Grid view"
+            aria-label={t('pages.gallery.gridView')}
           >
             <Grid className="h-4 w-4" />
           </button>
@@ -54,7 +57,7 @@ export function GalleryToolbar({
                 ? 'bg-terracotta text-bone-white'
                 : 'text-stone-gray hover:text-charcoal hover:bg-desert-sand/20'
             )}
-            aria-label="List view"
+            aria-label={t('pages.gallery.listView')}
           >
             <List className="h-4 w-4" />
           </button>
@@ -66,7 +69,7 @@ export function GalleryToolbar({
           className="flex items-center gap-2 rounded-lg bg-terracotta px-4 py-2.5 text-sm font-medium text-bone-white transition-all hover:bg-clay active:scale-95 shadow-sm"
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">New Capture</span>
+          <span className="hidden sm:inline">{t('pages.gallery.newCapture')}</span>
         </Link>
       </div>
 

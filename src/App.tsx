@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Layout } from './components/layout';
 import { ErrorBoundary } from './components/ui';
 import { LoadingScreen } from './components/ui';
+import './i18n'; // Initialize i18n
 import './index.css';
 
 // Lazy load pages for better performance

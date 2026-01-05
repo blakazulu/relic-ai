@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, FileText, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { formatDate } from '@/lib/utils';
 import type { Artifact } from '@/types';
@@ -13,22 +14,22 @@ interface ArtifactListItemProps {
 /**
  * Get status badge styling
  */
-function getStatusInfo(status: Artifact['status']): { color: string; label: string } {
+function getStatusInfo(status: Artifact['status'], t: (key: string) => string): { color: string; label: string } {
   switch (status) {
     case 'draft':
-      return { color: 'bg-stone-gray/20 text-stone-gray', label: 'Draft' };
+      return { color: 'bg-stone-gray/20 text-stone-gray', label: t('common.status.draft') };
     case 'images-captured':
-      return { color: 'bg-desert-teal/20 text-desert-teal', label: 'Images' };
+      return { color: 'bg-desert-teal/20 text-desert-teal', label: t('common.status.images') };
     case 'processing-3d':
-      return { color: 'bg-gold-ochre/20 text-gold-ochre', label: 'Processing' };
+      return { color: 'bg-gold-ochre/20 text-gold-ochre', label: t('common.status.processing') };
     case 'processing-info':
-      return { color: 'bg-gold-ochre/20 text-gold-ochre', label: 'Analyzing' };
+      return { color: 'bg-gold-ochre/20 text-gold-ochre', label: t('common.status.analyzing') };
     case 'complete':
-      return { color: 'bg-oxidized-bronze/20 text-oxidized-bronze', label: 'Complete' };
+      return { color: 'bg-oxidized-bronze/20 text-oxidized-bronze', label: t('common.status.complete') };
     case 'error':
-      return { color: 'bg-rust-red/20 text-rust-red', label: 'Error' };
+      return { color: 'bg-rust-red/20 text-rust-red', label: t('common.status.error') };
     default:
-      return { color: 'bg-stone-gray/20 text-stone-gray', label: 'Unknown' };
+      return { color: 'bg-stone-gray/20 text-stone-gray', label: t('common.status.unknown') };
   }
 }
 
@@ -37,6 +38,7 @@ function getStatusInfo(status: Artifact['status']): { color: string; label: stri
  */
 export function ArtifactListItem({ artifact, className }: ArtifactListItemProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,8 +50,8 @@ export function ArtifactListItem({ artifact, className }: ArtifactListItemProps)
     return undefined;
   }, [artifact.thumbnailBlob]);
 
-  const statusInfo = getStatusInfo(artifact.status);
-  const displayName = artifact.metadata?.name || 'Unnamed Artifact';
+  const statusInfo = getStatusInfo(artifact.status, t);
+  const displayName = artifact.metadata?.name || t('pages.gallery.unnamedArtifact');
   const siteName = artifact.metadata?.siteName;
   const displayDate = formatDate(artifact.metadata?.dateFound || artifact.createdAt);
 
@@ -82,10 +84,10 @@ export function ArtifactListItem({ artifact, className }: ArtifactListItemProps)
         <div className="flex items-center gap-2 mb-0.5">
           <h3 className="font-medium text-charcoal truncate">{displayName}</h3>
           {artifact.model3DId && (
-            <Box className="w-3.5 h-3.5 text-terracotta flex-shrink-0" aria-label="Has 3D model" />
+            <Box className="w-3.5 h-3.5 text-terracotta flex-shrink-0" aria-label={t('pages.gallery.has3DModel')} />
           )}
           {artifact.infoCardId && (
-            <FileText className="w-3.5 h-3.5 text-terracotta flex-shrink-0" aria-label="Has info card" />
+            <FileText className="w-3.5 h-3.5 text-terracotta flex-shrink-0" aria-label={t('pages.gallery.hasInfoCard')} />
           )}
         </div>
         <div className="flex items-center gap-1.5 text-xs text-stone-gray">
