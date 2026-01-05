@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
-import { colorize, APIError } from '@/lib/api/client';
 import { addColorVariant, updateArtifact } from '@/lib/db';
 import { useAppStore } from '@/stores/appStore';
+import { colorizeImage as colorizeLocal } from '@/lib/colorization';
 import type { ColorVariant, ColorScheme, ProcessingStatus } from '@/types';
 
 /**
@@ -55,23 +55,6 @@ export interface UseColorizeReturn {
   isProcessing: boolean;
   /** Reset the hook state */
   reset: () => void;
-}
-
-/**
- * Converts a Blob to base64 string
- */
-async function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
-      const base64 = result.split(',')[1];
-      resolve(base64);
-    };
-    reader.onerror = () => reject(new Error('Failed to read blob'));
-    reader.readAsDataURL(blob);
-  });
 }
 
 /**
@@ -236,40 +219,32 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
       });
 
       try {
-        // Phase 1: Upload/Convert image (0-30%)
-        updateState('uploading', 0, 'Converting image...');
+        // Phase 1: Prepare for processing (0-10%)
+        updateState('uploading', 0, 'Preparing image...');
 
         if (isCancelledRef.current) {
           return null;
         }
 
-        updateState('uploading', 15, 'Encoding image...');
+        // Phase 2: Local AI processing (10-90%)
+        // Progress callback for detailed updates during model inference
+        const progressCallback = (progress: number, message: string) => {
+          if (isCancelledRef.current) return;
+          // Scale progress to 10-90 range
+          const scaledProgress = 10 + (progress * 0.8);
+          updateState('processing', Math.round(scaledProgress), message);
+        };
 
-        const imageBase64 = await blobToBase64(image);
+        updateState('processing', 10, 'Starting local AI colorization...');
 
-        if (isCancelledRef.current) {
-          return null;
-        }
-
-        updateState('uploading', 30, 'Sending to AI...');
-
-        // Phase 2: Processing (30-90%)
-        updateState('processing', 30, 'Applying color scheme...');
-
-        // Call the API
-        const response = await colorize({
-          imageBase64,
-          colorScheme,
-          customPrompt,
-        });
+        // Use client-side colorization
+        const response = await colorizeLocal(image, progressCallback);
 
         if (isCancelledRef.current) {
           return null;
         }
 
-        updateState('processing', 70, 'Processing colorized image...');
-
-        // Check for API errors
+        // Check for errors
         if (!response.success || !response.colorizedImageBase64) {
           handleError(
             'processing-failed',
@@ -278,7 +253,7 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
           return null;
         }
 
-        updateState('processing', 85, 'Converting image data...');
+        updateState('processing', 85, 'Colorization complete...');
 
         // Phase 3: Save to IndexedDB (90-100%)
         updateState('processing', 90, 'Saving color variant...');
@@ -333,26 +308,24 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
         let errorType: ColorizeError['type'] = 'unknown';
         let errorMessage = 'An unexpected error occurred during colorization';
 
-        if (caughtError instanceof APIError) {
-          if (caughtError.statusCode >= 500) {
-            errorType = 'processing-failed';
-            errorMessage = 'Server error during colorization. Please try again.';
-          } else if (caughtError.statusCode === 0 || caughtError.message.includes('network')) {
-            errorType = 'network';
-            errorMessage = 'Network error. Please check your connection and try again.';
-          } else if (caughtError.statusCode === 429) {
-            errorType = 'processing-failed';
-            errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
-          } else {
-            errorType = 'processing-failed';
-            errorMessage = caughtError.message;
-          }
-        } else if (caughtError.name === 'AbortError') {
+        if (caughtError.name === 'AbortError') {
           errorType = 'cancelled';
           errorMessage = 'Colorization was cancelled';
-        } else if (caughtError.message.includes('Failed to read blob')) {
+        } else if (caughtError.message.includes('Failed to read blob') ||
+                   caughtError.message.includes('Failed to load image')) {
           errorType = 'upload-failed';
           errorMessage = 'Failed to process image. Please try a different image.';
+        } else if (caughtError.message.includes('model') ||
+                   caughtError.message.includes('ONNX')) {
+          errorType = 'processing-failed';
+          errorMessage = 'AI model error. Please try again or refresh the page.';
+        } else if (caughtError.message.includes('canvas') ||
+                   caughtError.message.includes('context')) {
+          errorType = 'processing-failed';
+          errorMessage = 'Image processing error. Please try a smaller image.';
+        } else {
+          errorType = 'processing-failed';
+          errorMessage = caughtError.message || 'Failed to colorize image';
         }
 
         handleError(errorType, errorMessage, caughtError);
