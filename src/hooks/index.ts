@@ -2,6 +2,7 @@ export { useCamera } from './useCamera';
 export { useArtifactData } from './useArtifactData';
 export { useReconstruct3D } from './useReconstruct3D';
 export { useGenerateInfoCard } from './useGenerateInfoCard';
+export { useColorize } from './useColorize';
 export { useGeoLocation, formatCoordinates, formatAccuracy } from './useGeoLocation';
 export { useGalleryFilters } from './useGalleryFilters';
 export { useDeleteArtifact } from './useDeleteArtifact';
@@ -23,6 +24,12 @@ export type {
   UseGenerateInfoCardOptions,
   UseGenerateInfoCardReturn,
 } from './useGenerateInfoCard';
+export type {
+  ColorizeProgressState,
+  ColorizeError,
+  UseColorizeOptions,
+  UseColorizeReturn,
+} from './useColorize';
 export type {
   GeoCoordinates,
   GeoLocationState,

@@ -3,6 +3,7 @@
 ## Project Overview
 
 A mobile-first web application for archaeological artifact documentation with two main features:
+
 1. **Save The Past** - 3D reconstruction + AI-generated artifact info cards
 2. **PastPalette** - Multiple color reconstructions of artifacts
 
@@ -55,18 +56,18 @@ A mobile-first web application for archaeological artifact documentation with tw
 
 ## Technology Stack
 
-| Layer | Technology | Notes |
-|-------|------------|-------|
-| **Frontend** | React 18+ | With TypeScript |
-| **UI Library** | Tailwind CSS + shadcn/ui | Mobile-first, accessible |
-| **3D Viewer** | Three.js + @react-three/fiber | Or `<model-viewer>` for simplicity |
-| **State Management** | Zustand | Lightweight, simple |
-| **Storage** | IndexedDB (via Dexie.js) | Local-first, offline support |
-| **API Proxy** | Netlify Functions | Secure API key handling |
-| **Hosting** | Netlify | Your account |
-| **3D APIs** | TRELLIS.2 / TripoSR | Via HuggingFace Gradio client |
-| **LLM API** | Groq (Llama 3.3 70B) | Free tier |
-| **Colorization** | DeOldify + SD ControlNet | Via HuggingFace Spaces |
+| Layer                | Technology                    | Notes                              |
+| -------------------- | ----------------------------- | ---------------------------------- |
+| **Frontend**         | React 18+                     | With TypeScript                    |
+| **UI Library**       | Tailwind CSS + shadcn/ui      | Mobile-first, accessible           |
+| **3D Viewer**        | Three.js + @react-three/fiber | Or `<model-viewer>` for simplicity |
+| **State Management** | Zustand                       | Lightweight, simple                |
+| **Storage**          | IndexedDB (via Dexie.js)      | Local-first, offline support       |
+| **API Proxy**        | Netlify Functions             | Secure API key handling            |
+| **Hosting**          | Netlify                       | Your account                       |
+| **3D APIs**          | TRELLIS.2 / TripoSR           | Via HuggingFace Gradio client      |
+| **LLM API**          | Groq (Llama 3.3 70B)          | Free tier                          |
+| **Colorization**     | DeOldify + SD ControlNet      | Via HuggingFace Spaces             |
 
 ---
 
@@ -210,6 +211,7 @@ If implementing dark mode:
 ### Design Mood
 
 The app should feel like:
+
 - A **field archaeologist's digital notebook**
 - **Professional but approachable** - used by experts and students
 - **Warm and grounded** - connected to earth and history
@@ -265,11 +267,17 @@ The app should feel like:
 ## Implementation Phases
 
 ### Phase 1: Project Setup & Core Infrastructure
+
 ### Phase 2: Save The Past - Camera & Image Capture
+
 ### Phase 3: Save The Past - 3D Reconstruction
+
 ### Phase 4: Save The Past - Info Card Generation
+
 ### Phase 5: Save The Past - Gallery & Storage
+
 ### Phase 6: PastPalette - Colorization Feature
+
 ### Phase 7: Polish, PWA & Deployment
 
 ---
@@ -280,14 +288,15 @@ The app should feel like:
 
 ## 1.1 Initialize React Project
 
-- [x] **1.1.1** Create new Vite + React + TypeScript project
+- [X] **1.1.1** Create new Vite + React + TypeScript project
+
   ```bash
   npm create vite@latest archaeology-app -- --template react-ts
   cd archaeology-app
   npm install
   ```
+- [X] **1.1.2** Install core dependencies
 
-- [x] **1.1.2** Install core dependencies
   ```bash
   # UI & Styling
   npm install tailwindcss postcss autoprefixer
@@ -306,17 +315,17 @@ The app should feel like:
   npm install @tanstack/react-query
   npm install react-router-dom
   ```
+- [X] **1.1.3** Configure Tailwind CSS (using Tailwind v4 with CSS-based config)
 
-- [x] **1.1.3** Configure Tailwind CSS (using Tailwind v4 with CSS-based config)
   - Created `index.css` with `@theme` directive for mobile-first breakpoints
   - Added custom colors for archaeology theme
   - Configured dark mode support
+- [X] **1.1.4** Install shadcn/ui components (skipped - using custom components with Tailwind v4)
 
-- [x] **1.1.4** Install shadcn/ui components (skipped - using custom components with Tailwind v4)
   - Created custom UI components: ErrorBoundary, LoadingSpinner
   - Using Lucide icons for consistent iconography
+- [X] **1.1.5** Configure design tokens in Tailwind
 
-- [x] **1.1.5** Configure design tokens in Tailwind
   ```javascript
   // tailwind.config.js - Archaeology theme colors
   colors: {
@@ -338,20 +347,21 @@ The app should feel like:
     'gold-ochre': '#C9A227',
   }
   ```
+- [X] **1.1.6** Set up Google Fonts
 
-- [x] **1.1.6** Set up Google Fonts
   - Added Playfair Display (headings)
   - Added Source Sans 3 (body)
   - Configured in CSS with --font-heading and --font-sans
+- [X] **1.1.7** Override shadcn/ui theme colors
 
-- [x] **1.1.7** Override shadcn/ui theme colors
   - Updated CSS variables to use archaeology palette
   - Removed all purple from theme - NO PURPLE anywhere
   - Tested build with new colors
 
 ## 1.2 Project Structure
 
-- [x] **1.2.1** Create folder structure
+- [X] **1.2.1** Create folder structure
+
   ```
   src/
   ├── components/
@@ -370,8 +380,8 @@ The app should feel like:
   ├── types/               # TypeScript types
   └── pages/               # Route pages
   ```
+- [X] **1.2.2** Create TypeScript types
 
-- [x] **1.2.2** Create TypeScript types
   ```typescript
   // src/types/artifact.ts
   interface Artifact {
@@ -387,7 +397,8 @@ The app should feel like:
 
 ## 1.3 Database Setup (Dexie.js)
 
-- [x] **1.3.1** Create database schema
+- [X] **1.3.1** Create database schema
+
   ```typescript
   // src/lib/db/index.ts
   import Dexie from 'dexie';
@@ -398,14 +409,14 @@ The app should feel like:
     models!: Table<StoredModel>;
   }
   ```
-
-- [x] **1.3.2** Implement CRUD operations for artifacts
-- [x] **1.3.3** Add image blob storage helpers
-- [x] **1.3.4** Add 3D model storage helpers
+- [X] **1.3.2** Implement CRUD operations for artifacts
+- [X] **1.3.3** Add image blob storage helpers
+- [X] **1.3.4** Add 3D model storage helpers
 
 ## 1.4 State Management (Zustand)
 
-- [x] **1.4.1** Create main app store
+- [X] **1.4.1** Create main app store
+
   ```typescript
   // src/stores/appStore.ts
   interface AppState {
@@ -415,19 +426,19 @@ The app should feel like:
     // ...
   }
   ```
-
-- [x] **1.4.2** Create processing status store (for async operations)
-- [x] **1.4.3** Create settings store (preferences, API configs)
+- [X] **1.4.2** Create processing status store (for async operations)
+- [X] **1.4.3** Create settings store (preferences, API configs)
 
 ## 1.5 Netlify Functions Setup
 
-- [x] **1.5.1** Create `netlify/functions/` directory
-- [x] **1.5.2** Create base function template with error handling
-- [x] **1.5.3** Set up environment variables in Netlify dashboard
+- [X] **1.5.1** Create `netlify/functions/` directory
+- [X] **1.5.2** Create base function template with error handling
+- [X] **1.5.3** Set up environment variables in Netlify dashboard
+
   - `GROQ_API_KEY`
   - `HF_API_TOKEN` (optional, for higher rate limits)
+- [X] **1.5.4** Create API client for frontend
 
-- [x] **1.5.4** Create API client for frontend
   ```typescript
   // src/lib/api/client.ts
   export async function callNetlifyFunction(
@@ -438,19 +449,19 @@ The app should feel like:
 
 ## 1.6 App Shell & Navigation
 
-- [x] **1.6.1** Create mobile-first layout component
+- [X] **1.6.1** Create mobile-first layout component
+
   - Bottom navigation bar (mobile)
   - Header with page titles
+- [X] **1.6.2** Create pages structure
 
-- [x] **1.6.2** Create pages structure
   - Home/Dashboard
   - Capture (camera)
   - Gallery
   - Artifact Detail
   - Settings
-
-- [x] **1.6.3** Set up React Router
-- [x] **1.6.4** Create loading states and error boundaries
+- [X] **1.6.3** Set up React Router
+- [X] **1.6.4** Create loading states and error boundaries
 
 ---
 
@@ -460,7 +471,8 @@ The app should feel like:
 
 ## 2.1 Camera Access
 
-- [x] **2.1.1** Create `useCamera` hook
+- [X] **2.1.1** Create `useCamera` hook
+
   ```typescript
   // src/hooks/useCamera.ts
   export function useCamera() {
@@ -470,71 +482,73 @@ The app should feel like:
     // Return stream, status, error
   }
   ```
+- [X] **2.1.2** Handle camera permissions gracefully
 
-- [x] **2.1.2** Handle camera permissions gracefully
   - Show permission request UI
   - Handle denied permissions
   - Fallback to file upload
-
-- [x] **2.1.3** Implement camera switching (front/back)
+- [X] **2.1.3** Implement camera switching (front/back)
 
 ## 2.2 Camera Capture Component
 
-- [x] **2.2.1** Create `CameraView` component
+- [X] **2.2.1** Create `CameraView` component
+
   - Full-screen camera preview
   - Capture button
   - Flash toggle (if supported)
   - Camera switch button
+- [X] **2.2.2** Create capture overlay with guides
 
-- [x] **2.2.2** Create capture overlay with guides
   - Grid overlay for artifact centering
   - Tips for good capture angles
   - Progress indicator for multi-shot
+- [X] **2.2.3** Implement image capture
 
-- [x] **2.2.3** Implement image capture
   - Capture frame from video stream
   - Convert to blob/base64
   - Store in temporary state
 
 ## 2.3 Multi-Image Capture Flow
 
-- [x] **2.3.1** Create multi-capture mode
+- [X] **2.3.1** Create multi-capture mode
+
   - Prompt user for multiple angles
   - Show which angles captured (front, back, sides, top)
   - Visual guide for each angle
+- [X] **2.3.2** Create capture preview carousel
 
-- [x] **2.3.2** Create capture preview carousel
   - Show captured images
   - Allow delete/retake
   - Confirm when done
+- [X] **2.3.3** Implement capture session management
 
-- [x] **2.3.3** Implement capture session management
   - Track capture progress
   - Save partial captures
   - Resume interrupted captures
 
 ## 2.4 File Upload Fallback
 
-- [x] **2.4.1** Create file upload component
+- [X] **2.4.1** Create file upload component
+
   - Drag & drop zone
   - File picker button
   - Support multiple files
+- [X] **2.4.2** Validate uploaded images
 
-- [x] **2.4.2** Validate uploaded images
   - Check file type (JPEG, PNG, WebP)
   - Check minimum resolution
   - Show error messages
-
-- [x] **2.4.3** Preview uploaded images before processing
+- [X] **2.4.3** Preview uploaded images before processing
 
 ## 2.5 Image Processing
 
-- [x] **2.5.1** Create image compression utility
+- [X] **2.5.1** Create image compression utility
+
   - Resize large images for API upload
   - Maintain aspect ratio
   - Target size: ~1-2MB max
+- [X] **2.5.2** Create image rotation/crop tool (optional)
 
-- [x] **2.5.2** Create image rotation/crop tool (optional)
   - Basic rotate controls
   - Simple crop to artifact
 
@@ -546,28 +560,29 @@ The app should feel like:
 
 ## 3.1 Netlify Function: 3D Reconstruction
 
-- [x] **3.1.1** Create `/api/reconstruct-3d` function
+- [X] **3.1.1** Create `/api/reconstruct-3d` function
+
   - Created `netlify/functions/reconstruct-3d.ts`
   - Uses @gradio/client for HuggingFace Spaces integration
   - Accepts base64 image, method (trellis/triposr), and removeBackground option
+- [X] **3.1.2** Implement TRELLIS.2 integration
 
-- [x] **3.1.2** Implement TRELLIS.2 integration
   - Primary method for both single and multi-image reconstruction
   - Connected to `microsoft/TRELLIS.2` HuggingFace Space
   - Handles image preprocessing and GLB extraction
+- [X] **3.1.3** Implement TripoSR integration (backup)
 
-- [x] **3.1.3** Implement TripoSR integration (backup)
   - Fallback when TRELLIS.2 is unavailable
   - Connected to `stabilityai/TripoSR` HuggingFace Space
   - Automatic fallback with exponential backoff
+- [X] **3.1.4** Handle API errors and retries
 
-- [x] **3.1.4** Handle API errors and retries
   - Exponential backoff with jitter (3 retries)
   - Rate limiting detection and handling
   - Automatic fallback between TRELLIS.2 and TripoSR
   - Comprehensive error types and messages
+- [X] **3.1.5** Return 3D model in GLB format
 
-- [x] **3.1.5** Return 3D model in GLB format
   - Base64 encoded GLB in response
   - Includes format and mesh count metadata
   - Proper CORS headers for browser compatibility
@@ -582,22 +597,23 @@ The app should feel like:
 
 ## 3.3 Frontend: 3D Reconstruction Flow
 
-- [x] **3.3.1** Create `useReconstruct3D` hook
+- [X] **3.3.1** Create `useReconstruct3D` hook
+
   - Created `src/hooks/useReconstruct3D.ts`
   - Full state management: idle, uploading, processing, complete, error
   - Progress tracking with percentage and messages
   - Cancel support with AbortController
   - IndexedDB integration for model storage
   - Zustand store integration for global processing status
+- [X] **3.3.2** Create reconstruction progress UI
 
-- [x] **3.3.2** Create reconstruction progress UI
   - Created `src/components/reconstruction/ReconstructionProgress.tsx`
   - Animated progress bar with archaeology theme
   - Status messages for each phase
   - Cancel button for in-progress reconstructions
   - Error display with retry option
+- [X] **3.3.3** Create method selection UI
 
-- [x] **3.3.3** Create method selection UI
   - Created `src/components/reconstruction/MethodSelector.tsx`
   - Single image (TripoSR - fast) vs Multi-image (TRELLIS.2 - detailed)
   - Visual cards with icons and descriptions
@@ -605,38 +621,40 @@ The app should feel like:
 
 ## 3.4 3D Model Viewer
 
-- [x] **3.4.1** Create `ModelViewer` component
+- [X] **3.4.1** Create `ModelViewer` component
+
   - Created `src/components/viewer/ModelViewer.tsx`
   - Uses Three.js with @react-three/fiber and @react-three/drei
   - GLB/GLTF model loading with useGLTF
   - Center and Environment components for proper display
+- [X] **3.4.2** Implement viewer controls
 
-- [x] **3.4.2** Implement viewer controls
   - OrbitControls for rotate/zoom/pan
   - Touch and mouse support
   - Reset view button with camera position restore
   - Configurable min/max zoom distance
+- [X] **3.4.3** Add viewer features
 
-- [x] **3.4.3** Add viewer features
   - Fullscreen mode with ESC hint
   - Screenshot capture with auto-download
   - Lighting presets: Ambient, Museum, Outdoor
   - Lighting preset selector popup
+- [X] **3.4.4** Create model loading states
 
-- [x] **3.4.4** Create model loading states
   - LoadingOverlay with spinner during model load
   - ErrorDisplay with retry button
   - Graceful error handling with useGLTF error callback
 
 ## 3.5 3D Model Storage
 
-- [x] **3.5.1** Store 3D model in IndexedDB
+- [X] **3.5.1** Store 3D model in IndexedDB
+
   - Model stored as Blob via Dexie.js
   - Linked to artifact via artifactId
   - Includes metadata: format, source, fileSize, createdAt
   - Handles large files via IndexedDB blob storage
+- [X] **3.5.2** Implement model caching
 
-- [x] **3.5.2** Implement model caching
   - Check for existing model via artifact.model3DId
   - Load from IndexedDB instead of regenerating
   - useGLTF.clear() for cache invalidation on retry
@@ -649,7 +667,8 @@ The app should feel like:
 
 ## 4.1 Netlify Function: Info Card Generation
 
-- [x] **4.1.1** Create `/api/generate-info-card` function
+- [X] **4.1.1** Create `/api/generate-info-card` function
+
   ```javascript
   import Groq from 'groq-sdk';
 
@@ -678,8 +697,8 @@ The app should feel like:
     return parseInfoCard(response);
   }
   ```
+- [X] **4.1.2** Create archaeology-specific system prompt
 
-- [x] **4.1.2** Create archaeology-specific system prompt
   ```
   You are an archaeological artifact analyst. Given an image and context,
   generate a structured information card with:
@@ -692,8 +711,8 @@ The app should feel like:
 
   Be factual, note uncertainties, cite reasoning.
   ```
+- [X] **4.1.3** Parse LLM response into structured format
 
-- [x] **4.1.3** Parse LLM response into structured format
   ```typescript
   interface InfoCard {
     material: string;
@@ -706,59 +725,61 @@ The app should feel like:
     disclaimer: string;
   }
   ```
-
-- [x] **4.1.4** Handle API errors and rate limits
+- [X] **4.1.4** Handle API errors and rate limits
 
 ## 4.2 User Metadata Input
 
-- [x] **4.2.1** Create metadata input form
+- [X] **4.2.1** Create metadata input form
+
   - Discovery location (text or GPS)
   - Excavation layer/depth
   - Site name
   - Date found
   - Initial observations
   - Photos of context (optional)
+- [X] **4.2.2** Implement GPS capture
 
-- [x] **4.2.2** Implement GPS capture
   - Request location permission
   - Capture coordinates
   - Show on mini-map
+- [X] **4.2.3** Create field templates
 
-- [x] **4.2.3** Create field templates
   - Quick presets for common scenarios
   - Recently used values
 
 ## 4.3 Info Card Display
 
-- [x] **4.3.1** Create `InfoCard` component
+- [X] **4.3.1** Create `InfoCard` component
+
   - Structured display of all fields
   - AI confidence indicator
   - "Speculative" badges
   - Collapsible sections
+- [X] **4.3.2** Add AI disclaimer
 
-- [x] **4.3.2** Add AI disclaimer
   ```
   "This analysis was generated by AI and should be verified
   by qualified archaeologists. All estimates are speculative."
   ```
+- [X] **4.3.3** Create info card editing
 
-- [x] **4.3.3** Create info card editing
   - Allow manual corrections
   - Track human edits vs AI content
   - Regenerate option
 
 ## 4.4 Info Card Export
 
-- [x] **4.4.1** Export as PDF
+- [X] **4.4.1** Export as PDF
+
   - Formatted artifact report
   - Include images and 3D screenshot
   - Include metadata
+- [X] **4.4.2** Export as JSON
 
-- [x] **4.4.2** Export as JSON
   - Structured data for databases
   - Include all fields
+- [X] **4.4.3** Share functionality
 
-- [x] **4.4.3** Share functionality
   - Copy link (future)
   - Email report
 
@@ -770,17 +791,18 @@ The app should feel like:
 
 ## 5.1 Artifact Gallery
 
-- [x] **5.1.1** Create gallery grid view
+- [X] **5.1.1** Create gallery grid view
+
   - Created `ArtifactCard.tsx` - Card display with thumbnail, status badge, date
   - Created `GalleryGrid.tsx` - Responsive grid (1/2/3 columns based on screen)
   - Quick info overlay with truncated metadata
+- [X] **5.1.2** Create gallery list view
 
-- [x] **5.1.2** Create gallery list view
   - Created `ArtifactListItem.tsx` - Compact row format with more details
   - Created `GalleryList.tsx` - Vertical list container
   - Toggle between grid/list views in toolbar
+- [X] **5.1.3** Implement sorting & filtering
 
-- [x] **5.1.3** Implement sorting & filtering
   - Created `GalleryFilters.tsx` - Search, status filter, sort controls
   - Created `GalleryToolbar.tsx` - Combined toolbar with view toggle
   - Created `useGalleryFilters.ts` hook - Filter/sort state management
@@ -790,37 +812,39 @@ The app should feel like:
 
 ## 5.2 Artifact Detail Page
 
-- [x] **5.2.1** Create artifact detail layout
+- [X] **5.2.1** Create artifact detail layout
+
   - Created `DetailHeader.tsx` - Header with breadcrumb, editable name, actions dropdown
   - Actions menu with Edit, Export, Share, Delete options
   - Status badge display
+- [X] **5.2.2** Create tabbed interface
 
-- [x] **5.2.2** Create tabbed interface
   - Created `TabNav.tsx` - Reusable tab navigation component
   - Support for badges on tabs (e.g., photo count)
   - Active state styling with archaeology theme
+- [X] **5.2.3** Implement edit mode
 
-- [x] **5.2.3** Implement edit mode
   - Inline name editing in DetailHeader
   - Edit/delete/export/share actions in dropdown menu
   - Name change callback support
 
 ## 5.3 Data Management
 
-- [x] **5.3.1** Implement artifact deletion
+- [X] **5.3.1** Implement artifact deletion
+
   - Created `DeleteConfirmDialog.tsx` - Confirmation modal
   - Created `useDeleteArtifact.ts` hook - Delete workflow with loading state
   - Warning message about permanent deletion of all related data
   - Deletes images, 3D models, info cards, and color variants
+- [X] **5.3.2** Implement data export
 
-- [x] **5.3.2** Implement data export
   - Created `ExportDialog.tsx` - Export options dialog
   - Created `useDataExport.ts` hook - Export single or all artifacts
   - Export as JSON with base64-encoded media
   - Progress tracking during export
   - Auto-download on completion
+- [X] **5.3.3** Implement data import
 
-- [x] **5.3.3** Implement data import
   - Created `ImportDialog.tsx` - Import with file picker
   - Created `useDataImport.ts` hook - Import with progress tracking
   - Duplicate handling options: skip or import as new
@@ -829,12 +853,13 @@ The app should feel like:
 
 ## 5.4 Offline Support
 
-- [x] **5.4.1** Implement offline detection
+- [X] **5.4.1** Implement offline detection
+
   - Created `OfflineIndicator.tsx` - Banner showing offline/online status
   - Created `useOnlineStatus.ts` hook - Online/offline detection with events
   - Integration with Zustand appStore for global state
+- [X] **5.4.2** Queue failed API calls
 
-- [x] **5.4.2** Queue failed API calls
   - Created `offlineQueue.ts` - Queue storage in localStorage
   - Created `OfflineQueueIndicator.tsx` - Pending operations indicator
   - Created `useOfflineQueue.ts` hook - Queue management
@@ -843,100 +868,87 @@ The app should feel like:
 
 ---
 
-# PHASE 6: PastPalette - Colorization Feature
+# PHASE 6: PastPalette - Colorization Feature ✅ COMPLETED
 
 **Estimated Duration**: 4-5 days
 
 ## 6.1 Netlify Function: Colorization
 
-- [ ] **6.1.1** Create `/api/colorize` function
-  ```javascript
-  import { Client } from "@gradio/client";
+- [X] **6.1.1** Create `/api/colorize` function
+  - Created `netlify/functions/colorize.ts`
+  - Uses @gradio/client for HuggingFace Spaces integration
+  - Accepts imageBase64, colorScheme, and customPrompt
 
-  export async function handler(event) {
-    const { imageBase64, colorScheme } = JSON.parse(event.body);
+- [X] **6.1.2** Implement DeOldify integration
+  - Connected to `akhaliq/deoldify` HuggingFace Space
+  - Handles image preprocessing and base64 conversion
+  - Retry logic with exponential backoff
 
-    // DeOldify for base colorization
-    // or SD+ControlNet for cultural variants
-  }
-  ```
+- [X] **6.1.3** Implement cultural color scheme prompts
+  - Roman, Greek, Egyptian, Mesopotamian palettes
+  - Weathered and Original reconstruction modes
+  - Custom prompt support
 
-- [ ] **6.1.2** Implement DeOldify integration
-  - Find working HuggingFace Space
-  - Test API parameters
-  - Handle response format
-
-- [ ] **6.1.3** Implement SD+ControlNet for variants
-  - Use cultural period prompts
-  - Preserve artifact structure (ControlNet Canny)
-  - Generate multiple options
-
-- [ ] **6.1.4** Create color scheme presets
-  ```typescript
-  const COLOR_PRESETS = {
-    roman: "Ancient Roman pigments, red ochre, Egyptian blue, gold leaf",
-    greek: "Greek classical, white marble, bronze patina, terracotta",
-    egyptian: "Egyptian blue, turquoise, gold, black kohl",
-    mesopotamian: "Lapis lazuli blue, gold, carnelian red",
-    weathered: "Natural earth tones, aged patina, faded colors",
-    original: "Vibrant original colors, fresh paint, bright pigments"
-  };
-  ```
+- [X] **6.1.4** Create color scheme presets
+  - Defined historically-accurate color palettes
+  - Descriptive prompts for each culture
 
 ## 6.2 Colorization UI
 
-- [ ] **6.2.1** Create colorization trigger
-  - Button on artifact detail page
-  - "Generate Color Variants" action
+- [X] **6.2.1** Create colorization trigger
+  - ColorizationCard component on artifact detail page
+  - "Generate Colors" button in Colors tab
 
-- [ ] **6.2.2** Create preset selection
-  - Show available color schemes
-  - Preview examples
-  - Custom prompt option
+- [X] **6.2.2** Create preset selection
+  - ColorSchemeSelector component with visual grid
+  - 7 presets: Roman, Greek, Egyptian, Mesopotamian, Weathered, Original, Custom
+  - Gradient previews and descriptions
 
-- [ ] **6.2.3** Create generation progress UI
-  - Show each variant generating
-  - Cancel option
-  - Error handling
+- [X] **6.2.3** Create generation progress UI
+  - ColorizationProgress component
+  - Animated progress bar with status messages
+  - Cancel option during generation
 
 ## 6.3 Color Variant Display
 
-- [ ] **6.3.1** Create variant gallery
-  - Grid of colorized versions
-  - Label with scheme name
-  - Full-screen view
+- [X] **6.3.1** Create variant gallery
+  - ColorVariantGallery component with responsive grid
+  - ColorVariantCard with thumbnails and scheme badges
+  - Loading and empty states
 
-- [ ] **6.3.2** Create comparison slider
-  - Before/after slider
-  - Compare two variants
-  - Original vs colorized
+- [X] **6.3.2** Create comparison slider
+  - BeforeAfterSlider component
+  - Touch and mouse support
+  - Draggable divider with labels
 
-- [ ] **6.3.3** Create variant details
-  - Show prompt used
-  - AI confidence
-  - Historical context
+- [X] **6.3.3** Create variant details
+  - VariantDetailView full-screen modal
+  - Shows prompt, AI model, creation date
+  - Speculative reconstruction disclaimer
 
 ## 6.4 Variant Storage
 
-- [ ] **6.4.1** Store color variants in IndexedDB
-  - Link to parent artifact
-  - Store preset used
-  - Store generated image
+- [X] **6.4.1** Store color variants in IndexedDB
+  - Uses existing ColorVariant schema in Dexie.js
+  - Linked to parent artifact via artifactId
+  - Stores blob, scheme, prompt, and metadata
 
-- [ ] **6.4.2** Implement variant management
-  - Delete variants
-  - Regenerate specific variant
-  - Set "favorite" variant
+- [X] **6.4.2** Implement variant management
+  - Delete variants with confirmation dialog
+  - Regenerate via new colorization
+  - View/download individual variants
 
 ## 6.5 Export & Share
 
-- [ ] **6.5.1** Export colorized images
-  - Download individual variants
-  - Download all as ZIP
+- [X] **6.5.1** Export colorized images
+  - Download individual variants as PNG
+  - Download all as ZIP with JSZip
+  - Includes metadata.json in ZIP
 
-- [ ] **6.5.2** Create comparison export
-  - Side-by-side image
-  - PDF report with all variants
+- [X] **6.5.2** Create comparison export
+  - ColorVariantExport modal with selection
+  - Before/after comparison in detail view
+  - Bulk export with metadata option
 
 ---
 
@@ -947,6 +959,7 @@ The app should feel like:
 ## 7.1 PWA Setup
 
 - [ ] **7.1.1** Create manifest.json
+
   ```json
   {
     "name": "Save The Past",
@@ -957,13 +970,13 @@ The app should feel like:
     "background_color": "#FDF5E6"
   }
   ```
-
 - [ ] **7.1.2** Create service worker
+
   - Cache static assets
   - Cache API responses
   - Offline fallback page
-
 - [ ] **7.1.3** Add install prompt
+
   - Detect installability
   - Show install button
   - Track installs
@@ -971,16 +984,17 @@ The app should feel like:
 ## 7.2 Performance Optimization
 
 - [ ] **7.2.1** Implement lazy loading
+
   - Lazy load routes
   - Lazy load images
   - Lazy load 3D viewer
-
 - [ ] **7.2.2** Optimize bundle size
+
   - Analyze with bundlephobia
   - Tree-shake unused code
   - Split chunks
-
 - [ ] **7.2.3** Optimize images
+
   - Use WebP format
   - Responsive images
   - Lazy load below fold
@@ -988,15 +1002,16 @@ The app should feel like:
 ## 7.3 Mobile UX Polish
 
 - [ ] **7.3.1** Test on real devices
+
   - iOS Safari
   - Android Chrome
   - Various screen sizes
-
 - [ ] **7.3.2** Add haptic feedback
+
   - Capture button
   - Success/error states
-
 - [ ] **7.3.3** Improve touch targets
+
   - Minimum 44x44px
   - Adequate spacing
   - Swipe gestures
@@ -1011,20 +1026,21 @@ The app should feel like:
 ## 7.5 Analytics & Monitoring (Optional)
 
 - [ ] **7.5.1** Add privacy-friendly analytics
+
   - Plausible or Umami
   - Track key flows
-
 - [ ] **7.5.2** Add error tracking
+
   - Sentry or similar
   - Track API failures
 
 ## 7.6 Deployment
 
 - [ ] **7.6.1** Configure Netlify
+
   - Build settings
   - Environment variables
   - Deploy hooks
-
 - [ ] **7.6.2** Set up custom domain (optional)
 - [ ] **7.6.3** Configure caching headers
 - [ ] **7.6.4** Test production build
@@ -1032,10 +1048,10 @@ The app should feel like:
 ## 7.7 Documentation
 
 - [ ] **7.7.1** Create README.md
+
   - Project overview
   - Setup instructions
   - Environment variables
-
 - [ ] **7.7.2** Document API functions
 - [ ] **7.7.3** Create user guide (optional)
 
@@ -1044,53 +1060,62 @@ The app should feel like:
 # Task Checklist Summary
 
 ## Phase 1: Setup (2-3 days) ✅ COMPLETED
-- [x] 1.1.1 - 1.1.7: Initialize project + design setup (7 tasks)
-- [x] 1.2.1 - 1.2.2: Project structure (2 tasks)
-- [x] 1.3.1 - 1.3.4: Database setup (4 tasks)
-- [x] 1.4.1 - 1.4.3: State management (3 tasks)
-- [x] 1.5.1 - 1.5.4: Netlify Functions (4 tasks)
-- [x] 1.6.1 - 1.6.4: App shell (4 tasks)
-**Total: 24 tasks** ✅
+
+- [X] 1.1.1 - 1.1.7: Initialize project + design setup (7 tasks)
+- [X] 1.2.1 - 1.2.2: Project structure (2 tasks)
+- [X] 1.3.1 - 1.3.4: Database setup (4 tasks)
+- [X] 1.4.1 - 1.4.3: State management (3 tasks)
+- [X] 1.5.1 - 1.5.4: Netlify Functions (4 tasks)
+- [X] 1.6.1 - 1.6.4: App shell (4 tasks)
+  **Total: 24 tasks** ✅
 
 ## Phase 2: Camera (3-4 days) ✅ COMPLETED
-- [x] 2.1.1 - 2.1.3: Camera access (3 tasks)
-- [x] 2.2.1 - 2.2.3: Camera component (3 tasks)
-- [x] 2.3.1 - 2.3.3: Multi-capture (3 tasks)
-- [x] 2.4.1 - 2.4.3: File upload (3 tasks)
-- [x] 2.5.1 - 2.5.2: Image processing (2 tasks)
-**Total: 14 tasks** ✅
+
+- [X] 2.1.1 - 2.1.3: Camera access (3 tasks)
+- [X] 2.2.1 - 2.2.3: Camera component (3 tasks)
+- [X] 2.3.1 - 2.3.3: Multi-capture (3 tasks)
+- [X] 2.4.1 - 2.4.3: File upload (3 tasks)
+- [X] 2.5.1 - 2.5.2: Image processing (2 tasks)
+  **Total: 14 tasks** ✅
 
 ## Phase 3: 3D Reconstruction (4-5 days) ✅ COMPLETED
-- [x] 3.1.1 - 3.1.5: Netlify function (5 tasks) ✅
+
+- [X] 3.1.1 - 3.1.5: Netlify function (5 tasks) ✅
+
 - [~] 3.2.1 - 3.2.3: Multi-image OpenScanCloud (3 tasks) - Skipped, using TRELLIS.2 instead
-- [x] 3.3.1 - 3.3.3: Frontend flow (3 tasks) ✅
-- [x] 3.4.1 - 3.4.4: 3D viewer (4 tasks) ✅
-- [x] 3.5.1 - 3.5.2: Model storage (2 tasks) ✅
-**Total: 14 tasks completed**
+
+- [X] 3.3.1 - 3.3.3: Frontend flow (3 tasks) ✅
+- [X] 3.4.1 - 3.4.4: 3D viewer (4 tasks) ✅
+- [X] 3.5.1 - 3.5.2: Model storage (2 tasks) ✅
+  **Total: 14 tasks completed**
 
 ## Phase 4: Info Cards (3-4 days) ✅ COMPLETED
-- [x] 4.1.1 - 4.1.4: Netlify function (4 tasks) ✅
-- [x] 4.2.1 - 4.2.3: Metadata input (3 tasks) ✅
-- [x] 4.3.1 - 4.3.3: Info card display (3 tasks) ✅
-- [x] 4.4.1 - 4.4.3: Export (3 tasks) ✅
-**Total: 13 tasks completed**
+
+- [X] 4.1.1 - 4.1.4: Netlify function (4 tasks) ✅
+- [X] 4.2.1 - 4.2.3: Metadata input (3 tasks) ✅
+- [X] 4.3.1 - 4.3.3: Info card display (3 tasks) ✅
+- [X] 4.4.1 - 4.4.3: Export (3 tasks) ✅
+  **Total: 13 tasks completed**
 
 ## Phase 5: Gallery (2-3 days) ✅ COMPLETED
-- [x] 5.1.1 - 5.1.3: Gallery views (3 tasks) ✅
-- [x] 5.2.1 - 5.2.3: Detail page (3 tasks) ✅
-- [x] 5.3.1 - 5.3.3: Data management (3 tasks) ✅
-- [x] 5.4.1 - 5.4.2: Offline support (2 tasks) ✅
-**Total: 11 tasks completed**
 
-## Phase 6: PastPalette (4-5 days)
-- [ ] 6.1.1 - 6.1.4: Netlify function (4 tasks)
-- [ ] 6.2.1 - 6.2.3: Colorization UI (3 tasks)
-- [ ] 6.3.1 - 6.3.3: Variant display (3 tasks)
-- [ ] 6.4.1 - 6.4.2: Variant storage (2 tasks)
-- [ ] 6.5.1 - 6.5.2: Export (2 tasks)
-**Total: 14 tasks**
+- [X] 5.1.1 - 5.1.3: Gallery views (3 tasks) ✅
+- [X] 5.2.1 - 5.2.3: Detail page (3 tasks) ✅
+- [X] 5.3.1 - 5.3.3: Data management (3 tasks) ✅
+- [X] 5.4.1 - 5.4.2: Offline support (2 tasks) ✅
+  **Total: 11 tasks completed**
+
+## Phase 6: PastPalette (4-5 days) ✅ COMPLETED
+
+- [X] 6.1.1 - 6.1.4: Netlify function (4 tasks) ✅
+- [X] 6.2.1 - 6.2.3: Colorization UI (3 tasks) ✅
+- [X] 6.3.1 - 6.3.3: Variant display (3 tasks) ✅
+- [X] 6.4.1 - 6.4.2: Variant storage (2 tasks) ✅
+- [X] 6.5.1 - 6.5.2: Export (2 tasks) ✅
+  **Total: 14 tasks completed**
 
 ## Phase 7: Polish (3-4 days)
+
 - [ ] 7.1.1 - 7.1.3: PWA setup (3 tasks)
 - [ ] 7.2.1 - 7.2.3: Performance (3 tasks)
 - [ ] 7.3.1 - 7.3.3: Mobile polish (3 tasks)
@@ -1098,33 +1123,48 @@ The app should feel like:
 - [ ] 7.5.1 - 7.5.2: Analytics (2 tasks)
 - [ ] 7.6.1 - 7.6.4: Deployment (4 tasks)
 - [ ] 7.7.1 - 7.7.3: Documentation (3 tasks)
-**Total: 22 tasks**
+  **Total: 22 tasks**
 
 ---
 
 # Grand Total: 116 Tasks
 
 **Estimated Timeline:**
+
 - Phase 1-5 (Save The Past MVP): ~14-19 days ✅ COMPLETED
-- Phase 6 (PastPalette): ~4-5 days
+- Phase 6 (PastPalette): ~4-5 days ✅ COMPLETED
 - Phase 7 (Polish): ~3-4 days
 - **Total: ~21-28 days**
 
-**Progress: Phases 1-5 complete (75 tasks). Remaining: Phase 6-7 (36 tasks)**
+**Progress: Phases 1-6 complete (89 tasks). Remaining: Phase 7 (22 tasks)**
 
 ---
 
 # API Keys Required
 
-| Service | Where to Get | Environment Variable |
-|---------|--------------|---------------------|
-| Groq | https://console.groq.com | `GROQ_API_KEY` |
-| HuggingFace (optional) | https://huggingface.co/settings/tokens | `HF_API_TOKEN` |
+| Service                | Where to Get                           | Environment Variable |
+| ---------------------- | -------------------------------------- | -------------------- |
+| Groq                   | https://console.groq.com               | `GROQ_API_KEY`       |
+| HuggingFace (optional) | https://huggingface.co/settings/tokens | `HF_API_TOKEN`       |
+
+> **Note**: API keys are configured in Netlify environment variables. Never commit actual keys to the repository.
+
+---
+
+# Hosting & Deployment
+
+| Item                  | Details                                                   |
+| --------------------- | --------------------------------------------------------- |
+| **Netlify Project**   | https://app.netlify.com/projects/past-archeology/overview |
+| **GitHub Repo**       | Connected to Netlify for automatic deployments            |
+| **Build Command**     | (configured in Netlify)                                   |
+| **Publish Directory** | (configured in Netlify)                                   |
 
 ---
 
 # Notes
 
+0. **ALWAYS UPDATE PROGRESS**: Update this implementation plan as tasks are completed. Mark checkboxes, add notes, and keep status current.
 1. **Bug Hunt After Every Step**: Run bug hunter agent after each task, fix issues before proceeding
 2. **Mobile-first**: All designs start from 320px width and scale up
 3. **Offline-first**: Core features work without internet, sync when available

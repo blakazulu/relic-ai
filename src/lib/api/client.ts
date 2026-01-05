@@ -123,7 +123,10 @@ export interface ColorizeRequest {
 export interface ColorizeResponse {
   success: boolean;
   colorizedImageBase64?: string;
+  method?: string;
   error?: string;
+  retryCount?: number;
+  processingTimeMs?: number;
 }
 
 export async function colorize(

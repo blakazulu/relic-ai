@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db';
 import { useGalleryFilters } from '@/hooks';
 import { GalleryGrid, GalleryList, GalleryToolbar } from '@/components/gallery';
-import type { Artifact } from '@/types';
 
 type ViewMode = 'grid' | 'list';
 
