@@ -1,7 +1,11 @@
-# Archaeology Web App
+# Relic AI
 
 <div align="center">
-  <img src="public/logo.png" alt="Archaeology Web App Logo" width="200" />
+  <img src="public/logo.png" alt="Relic AI Logo" width="200" />
+
+  **AI-Powered Archaeological Artifact Documentation**
+
+  [Live Demo](https://relic-ai.netlify.app) | [GitHub](https://github.com/blakazulu/relic-ai)
 </div>
 
 A mobile-first web application for archaeological artifact documentation with AI-powered features. The app combines 3D reconstruction, AI-generated information cards, and historical colorization to help archaeologists document and analyze artifacts in the field.
@@ -53,8 +57,8 @@ A mobile-first web application for archaeological artifact documentation with AI
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd archeology
+   git clone https://github.com/blakazulu/relic-ai.git
+   cd relic-ai
    ```
 
 2. Install dependencies:
@@ -129,7 +133,7 @@ Note: The Netlify Functions will not work on other platforms without modificatio
 ## Project Structure
 
 ```
-archeology/
+relic-ai/
 ├── netlify/
 │   └── functions/               # Serverless API functions
 │       ├── reconstruct-3d.ts    # 3D model generation

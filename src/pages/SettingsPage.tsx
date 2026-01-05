@@ -139,13 +139,13 @@ export function SettingsPage() {
             <div className="flex items-center gap-3">
               <Info className="h-5 w-5 text-sienna" />
               <div>
-                <p className="font-medium text-charcoal">Save The Past</p>
-                <p className="text-sm text-stone-gray">Version 0.1.0</p>
+                <p className="font-medium text-charcoal">Relic AI</p>
+                <p className="text-sm text-stone-gray">Version 1.0.0</p>
               </div>
             </div>
           </div>
           <button
-            onClick={() => window.open('https://github.com/blakazulu/archeology', '_blank')}
+            onClick={() => window.open('https://github.com/blakazulu/relic-ai', '_blank')}
             className="w-full flex items-center justify-between p-4 text-left hover:bg-parchment transition-colors"
           >
             <div className="flex items-center gap-3">
