@@ -3,12 +3,11 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 /**
  * Netlify Function: Generate Info Card
  *
- * Calls Groq API with Llama 3.2 90B Vision to generate
- * an archaeological artifact information card.
- *
- * Note: Uses llama-3.2-90b-vision-preview for vision capabilities.
- * Llama 3.3 70B is text-only and doesn't support images.
+ * Uses Google's Gemini API for archaeological artifact analysis.
+ * Generates detailed information cards with material, age, cultural context, etc.
  */
+
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent";
 
 interface InfoCardRequest {
   imageBase64: string;
@@ -39,18 +38,6 @@ interface InfoCardResponse {
   error?: string;
 }
 
-// Retry configuration
-const MAX_RETRIES = 3;
-const INITIAL_RETRY_DELAY = 1000; // 1 second
-
-async function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function isRetryableError(status: number): boolean {
-  return status === 429 || status === 502 || status === 503 || status === 504;
-}
-
 const SYSTEM_PROMPT = `You are an expert archaeological artifact analyst. Given an image of an artifact and optional context, generate a detailed information card.
 
 IMPORTANT: Be factual and note uncertainties. All conclusions are speculative based on visual analysis alone.
@@ -70,11 +57,12 @@ Respond in JSON format with these exact fields:
   "aiConfidence": 0.75
 }
 
-Always include uncertainties in your analysis. This is AI-generated speculation, not expert verification.`;
+Always include uncertainties in your analysis. This is AI-generated speculation, not expert verification.
+Return ONLY valid JSON, no markdown code blocks or other formatting.`;
 
 const handler: Handler = async (
   event: HandlerEvent,
-  context: HandlerContext
+  _context: HandlerContext
 ): Promise<{ statusCode: number; body: string; headers: Record<string, string> }> => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -96,11 +84,11 @@ const handler: Handler = async (
   }
 
   try {
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'GROQ_API_KEY not configured' }),
+        body: JSON.stringify({ error: 'GOOGLE_AI_API_KEY not configured' }),
         headers,
       };
     }
@@ -133,95 +121,72 @@ const handler: Handler = async (
       }
     }
 
-    // Call Groq API with retry logic
-    let groqResponse: Response | null = null;
-    let lastError = '';
-
-    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-      try {
-        groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: 'llama-3.2-90b-vision-preview',
-            messages: [
-              { role: 'system', content: SYSTEM_PROMPT },
-              {
-                role: 'user',
-                content: [
-                  { type: 'text', text: userMessage },
-                  {
-                    type: 'image_url',
-                    image_url: { url: `data:image/jpeg;base64,${imageBase64}` },
-                  },
-                ],
-              },
-            ],
-            temperature: 0.3,
-            max_tokens: 1024,
-            response_format: { type: 'json_object' },
-          }),
-        });
-
-        if (groqResponse.ok) {
-          break; // Success, exit retry loop
-        }
-
-        if (!isRetryableError(groqResponse.status)) {
-          // Non-retryable error, exit loop
-          lastError = await groqResponse.text();
-          console.error('Groq API non-retryable error:', lastError);
-          break;
-        }
-
-        // Retryable error, wait and try again
-        lastError = await groqResponse.text();
-        console.log(`Groq API error (attempt ${attempt + 1}/${MAX_RETRIES}):`, groqResponse.status);
-
-        if (attempt < MAX_RETRIES - 1) {
-          const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, attempt);
-          await delay(retryDelay);
-        }
-      } catch (fetchError) {
-        lastError = fetchError instanceof Error ? fetchError.message : 'Network error';
-        console.error(`Fetch error (attempt ${attempt + 1}/${MAX_RETRIES}):`, lastError);
-
-        if (attempt < MAX_RETRIES - 1) {
-          const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, attempt);
-          await delay(retryDelay);
-        }
+    // Call Gemini API
+    const requestBody = {
+      contents: [{
+        parts: [
+          { text: SYSTEM_PROMPT + "\n\n" + userMessage },
+          {
+            inline_data: {
+              mime_type: "image/jpeg",
+              data: imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64
+            }
+          }
+        ]
+      }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 1024,
       }
-    }
+    };
 
-    if (!groqResponse || !groqResponse.ok) {
+    const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini API error:', errorText);
       return {
-        statusCode: groqResponse?.status || 500,
+        statusCode: response.status,
         body: JSON.stringify({
           success: false,
-          error: lastError || 'Groq API error after retries'
+          error: `Gemini API error: ${response.status}`
         }),
         headers,
       };
     }
 
-    const groqData = await groqResponse.json();
-    const content = groqData.choices?.[0]?.message?.content;
+    const geminiData = await response.json();
+    const content = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!content) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ success: false, error: 'Empty response from Groq' }),
+        body: JSON.stringify({ success: false, error: 'Empty response from Gemini' }),
         headers,
       };
     }
 
-    // Parse the JSON response
+    // Parse the JSON response - handle potential markdown code blocks
+    let jsonContent = content.trim();
+    if (jsonContent.startsWith('```json')) {
+      jsonContent = jsonContent.slice(7);
+    } else if (jsonContent.startsWith('```')) {
+      jsonContent = jsonContent.slice(3);
+    }
+    if (jsonContent.endsWith('```')) {
+      jsonContent = jsonContent.slice(0, -3);
+    }
+    jsonContent = jsonContent.trim();
+
     let infoCardData;
     try {
-      infoCardData = JSON.parse(content);
+      infoCardData = JSON.parse(jsonContent);
     } catch (parseError) {
       console.error('Failed to parse AI response as JSON:', content);
       return {
@@ -234,7 +199,7 @@ const handler: Handler = async (
       };
     }
 
-    const response: InfoCardResponse = {
+    const infoCardResponse: InfoCardResponse = {
       success: true,
       infoCard: {
         ...infoCardData,
@@ -244,7 +209,7 @@ const handler: Handler = async (
 
     return {
       statusCode: 200,
-      body: JSON.stringify(response),
+      body: JSON.stringify(infoCardResponse),
       headers,
     };
   } catch (error) {

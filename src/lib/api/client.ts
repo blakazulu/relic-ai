@@ -113,11 +113,14 @@ export async function generateInfoCard(
 
 /**
  * Colorization API (PastPalette)
+ * Uses Google Gemini API for intelligent, historically-accurate colorization
  */
 export interface ColorizeRequest {
   imageBase64: string;
   colorScheme: 'roman' | 'greek' | 'egyptian' | 'mesopotamian' | 'weathered' | 'original' | 'custom';
   customPrompt?: string;
+  /** Enable image restoration before colorization (repairs cracks, damage, etc.) */
+  includeRestoration?: boolean;
 }
 
 export interface ColorizeResponse {

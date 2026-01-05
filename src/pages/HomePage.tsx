@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { Camera, Palette, Box, Sparkles, FolderOpen, Settings, ArrowRight, Layers } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { preloadModel } from '@/lib/colorization';
 
 export function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,18 +9,6 @@ export function HomePage() {
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
-
-  // Preload the colorization AI model in the background
-  useEffect(() => {
-    // Delay slightly to not block initial render
-    const timer = setTimeout(() => {
-      preloadModel().catch(() => {
-        // Silently ignore preload errors - model will load when needed
-      });
-    }, 2000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   return (

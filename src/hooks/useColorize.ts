@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { addColorVariant, updateArtifact } from '@/lib/db';
 import { useAppStore } from '@/stores/appStore';
-import { colorizeImage as colorizeLocal } from '@/lib/colorization';
+import { colorize as colorizeAPI } from '@/lib/api/client';
 import type { ColorVariant, ColorScheme, ProcessingStatus } from '@/types';
 
 /**
@@ -35,6 +35,8 @@ export interface UseColorizeOptions {
   onError?: (error: ColorizeError) => void;
   /** Called when progress updates */
   onProgress?: (progress: number, state: ColorizeProgressState) => void;
+  /** Enable image restoration before colorization */
+  includeRestoration?: boolean;
 }
 
 /**
@@ -88,7 +90,7 @@ function generateId(): string {
  * 5. Integrate with app store for global state
  */
 export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
-  const { artifactId, onSuccess, onError, onProgress } = options;
+  const { artifactId, onSuccess, onError, onProgress, includeRestoration } = options;
 
   // State
   const [state, setState] = useState<ColorizeProgressState>('idle');
@@ -219,26 +221,42 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
       });
 
       try {
-        // Phase 1: Prepare for processing (0-10%)
-        updateState('uploading', 0, 'Preparing image...');
+        // Phase 1: Convert image to base64 (0-10%)
+        updateState('uploading', 5, 'Preparing image...');
 
         if (isCancelledRef.current) {
           return null;
         }
 
-        // Phase 2: Local AI processing (10-90%)
-        // Progress callback for detailed updates during model inference
-        const progressCallback = (progress: number, message: string) => {
-          if (isCancelledRef.current) return;
-          // Scale progress to 10-90 range
-          const scaledProgress = 10 + (progress * 0.8);
-          updateState('processing', Math.round(scaledProgress), message);
-        };
+        // Convert blob to base64
+        const imageBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const result = reader.result as string;
+            // Remove data URL prefix if present
+            const base64 = result.includes(',') ? result.split(',')[1] : result;
+            resolve(base64);
+          };
+          reader.onerror = () => reject(new Error('Failed to read image'));
+          reader.readAsDataURL(image);
+        });
 
-        updateState('processing', 10, 'Starting local AI colorization...');
+        if (isCancelledRef.current) {
+          return null;
+        }
 
-        // Use client-side colorization
-        const response = await colorizeLocal(image, progressCallback);
+        // Phase 2: Call Gemini API for colorization (10-85%)
+        updateState('uploading', 10, 'Uploading to colorization service...');
+        updateState('processing', 20, includeRestoration
+          ? 'Restoring and colorizing with Gemini AI...'
+          : 'Colorizing with Gemini AI...');
+
+        const response = await colorizeAPI({
+          imageBase64,
+          colorScheme,
+          customPrompt,
+          includeRestoration,
+        });
 
         if (isCancelledRef.current) {
           return null;
@@ -272,7 +290,7 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
           createdAt: new Date(),
           colorScheme,
           prompt: promptUsed,
-          aiModel: 'deoldify',
+          aiModel: 'gemini',
           isSpeculative: true,
         };
 
@@ -311,18 +329,20 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
         if (caughtError.name === 'AbortError') {
           errorType = 'cancelled';
           errorMessage = 'Colorization was cancelled';
-        } else if (caughtError.message.includes('Failed to read blob') ||
-                   caughtError.message.includes('Failed to load image')) {
+        } else if (caughtError.message.includes('Failed to read image')) {
           errorType = 'upload-failed';
           errorMessage = 'Failed to process image. Please try a different image.';
-        } else if (caughtError.message.includes('model') ||
-                   caughtError.message.includes('ONNX')) {
+        } else if (caughtError.message.includes('network') ||
+                   caughtError.message.includes('fetch') ||
+                   caughtError.message.includes('Failed to fetch')) {
+          errorType = 'network';
+          errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (caughtError.message.includes('API') ||
+                   caughtError.message.includes('Gemini') ||
+                   caughtError.message.includes('503') ||
+                   caughtError.message.includes('not configured')) {
           errorType = 'processing-failed';
-          errorMessage = 'AI model error. Please try again or refresh the page.';
-        } else if (caughtError.message.includes('canvas') ||
-                   caughtError.message.includes('context')) {
-          errorType = 'processing-failed';
-          errorMessage = 'Image processing error. Please try a smaller image.';
+          errorMessage = caughtError.message || 'Colorization service error. Please try again.';
         } else {
           errorType = 'processing-failed';
           errorMessage = caughtError.message || 'Failed to colorize image';
@@ -334,7 +354,7 @@ export function useColorize(options: UseColorizeOptions): UseColorizeReturn {
         abortControllerRef.current = null;
       }
     },
-    [artifactId, onSuccess, handleError, updateState, setProcessingStatus]
+    [artifactId, onSuccess, handleError, updateState, setProcessingStatus, includeRestoration]
   );
 
   return {
