@@ -1,5 +1,9 @@
 # Archaeology Web App
 
+<div align="center">
+  <img src="public/logo.png" alt="Archaeology Web App Logo" width="200" />
+</div>
+
 A mobile-first web application for archaeological artifact documentation with AI-powered features. The app combines 3D reconstruction, AI-generated information cards, and historical colorization to help archaeologists document and analyze artifacts in the field.
 
 ## Features
@@ -20,21 +24,21 @@ A mobile-first web application for archaeological artifact documentation with AI
 
 ## Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| Frontend | React 19 + TypeScript | User interface |
-| Build Tool | Vite 7 | Development and bundling |
-| Styling | Tailwind CSS 4 | Mobile-first responsive design |
-| State Management | Zustand | Lightweight global state |
-| Data Fetching | TanStack React Query | Server state management |
-| Local Storage | IndexedDB (Dexie.js) | Offline-first data persistence |
-| 3D Viewer | Three.js / @react-three/fiber | WebGL 3D model rendering |
-| Routing | React Router 7 | Client-side navigation |
-| API Proxy | Netlify Functions | Secure API key handling |
-| 3D Reconstruction | TRELLIS.2 / TripoSR | HuggingFace Spaces |
-| LLM API | Groq (Llama 3.2 90B Vision) | AI artifact analysis |
-| Colorization | DeOldify | HuggingFace Spaces |
-| Icons | Lucide React | UI iconography |
+| Layer             | Technology                    | Purpose                        |
+| ----------------- | ----------------------------- | ------------------------------ |
+| Frontend          | React 19 + TypeScript         | User interface                 |
+| Build Tool        | Vite 7                        | Development and bundling       |
+| Styling           | Tailwind CSS 4                | Mobile-first responsive design |
+| State Management  | Zustand                       | Lightweight global state       |
+| Data Fetching     | TanStack React Query          | Server state management        |
+| Local Storage     | IndexedDB (Dexie.js)          | Offline-first data persistence |
+| 3D Viewer         | Three.js / @react-three/fiber | WebGL 3D model rendering       |
+| Routing           | React Router 7                | Client-side navigation         |
+| API Proxy         | Netlify Functions             | Secure API key handling        |
+| 3D Reconstruction | TRELLIS.2 / TripoSR           | HuggingFace Spaces             |
+| LLM API           | Groq (Llama 3.2 90B Vision)   | AI artifact analysis           |
+| Colorization      | DeOldify                      | HuggingFace Spaces             |
+| Icons             | Lucide React                  | UI iconography                 |
 
 ## Getting Started
 
@@ -73,19 +77,19 @@ A mobile-first web application for archaeological artifact documentation with AI
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GROQ_API_KEY` | Yes | API key from [console.groq.com](https://console.groq.com) for AI info card generation |
-| `HF_API_TOKEN` | No | HuggingFace token from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) for higher rate limits on 3D reconstruction and colorization |
+| Variable       | Required | Description                                                                                                                                                  |
+| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GROQ_API_KEY` | Yes      | API key from [console.groq.com](https://console.groq.com) for AI info card generation                                                                        |
+| `HF_API_TOKEN` | No       | HuggingFace token from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) for higher rate limits on 3D reconstruction and colorization |
 
 ## Development Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production (TypeScript compile + Vite build) |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint for code quality checks |
+| Command           | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `npm run dev`     | Start development server with hot reload               |
+| `npm run build`   | Build for production (TypeScript compile + Vite build) |
+| `npm run preview` | Preview production build locally                       |
+| `npm run lint`    | Run ESLint for code quality checks                     |
 
 ## Deployment
 
@@ -143,7 +147,7 @@ archeology/
 │   │   ├── layout/              # App shell, navigation
 │   │   ├── reconstruction/      # 3D reconstruction UI
 │   │   ├── ui/                  # Reusable UI components
-│   │   └── viewer/              # 3D model viewer
+│   │   ├── viewer/              # 3D model viewer
 │   ├── hooks/                   # Custom React hooks
 │   ├── lib/
 │   │   ├── api/                 # API client functions
@@ -224,6 +228,14 @@ archeology/
 - **No accounts required**: All data stored locally
 - **AI transparency**: All AI-generated content clearly marked as speculative
 - **Archaeology-appropriate design**: Earthy color palette, professional feel
+
+## Architecture Overview
+
+
+<div align="center">
+  <img src="public/architecture-diagram.png" alt="Architecture Diagram" width="800" />
+</div>
+
 
 ## API Documentation
 
