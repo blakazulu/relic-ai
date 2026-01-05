@@ -7,8 +7,8 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
  * Supports both colorization and restoration with historically accurate results.
  */
 
-// Using experimental model which may have free tier access for image generation
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent";
+// Gemini 2.5 Flash Image (Nano Banana) for image generation/editing
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent";
 
 interface ColorizeRequest {
   imageBase64: string;
